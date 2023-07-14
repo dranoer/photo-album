@@ -1,4 +1,4 @@
-package com.dranoer.photoalbum
+package com.dranoer.photoalbum.util
 
 sealed class Route(val route: String) {
 
