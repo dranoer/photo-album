@@ -1,0 +1,4 @@
+[*.{kt,kts}]
+ktlint_code_style = ktlint_official
+insert_final_newline = false
+disabled_rules = import-ordering

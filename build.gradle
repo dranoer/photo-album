@@ -12,6 +12,7 @@ buildscript {
         hiltVersion = '2.42'
         hiltNavigationVersion = '1.0.0'
         junitVersion = '4.13.2'
+        ktlintVersion = '10.2.0'
     }
 
     repositories {
@@ -22,6 +23,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradleVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
     }
 }
 
