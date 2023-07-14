@@ -50,7 +50,6 @@ android {
 }
 
 dependencies {
-
     // Core
     implementation "androidx.core:core-ktx:$coreVersion"
     implementation platform("org.jetbrains.kotlin:kotlin-bom:$kotlinBomVersion")
@@ -73,6 +72,13 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     implementation "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion"
+
+    // Network
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion"
 
     // Test
     testImplementation "junit:junit:$junitVersion"
