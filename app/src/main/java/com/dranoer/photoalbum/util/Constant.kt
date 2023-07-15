@@ -2,8 +2,11 @@ package com.dranoer.photoalbum.util
 
 object Constant {
 
-    // Screen
+    // UI
     const val ALBUM_SCREEN = "album"
+    const val PHOTO_SCREEN = "photo"
+    const val DETAIL_SCREEN = "detail"
+    const val ALBUM_ID = "albumId"
 
     // Network
     const val BASE_URL = "https://jsonplaceholder.typicode.com/"

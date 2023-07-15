@@ -27,7 +27,7 @@ class AlbumViewModel @Inject constructor(
             _albumState.value = AlbumUiState.Loading()
 
             try {
-                val response = repository.fetchAlbumList()
+                val response = repository.fetchAlbums()
                 _albumState.value = AlbumUiState.Success(data = response)
 
             } catch (e: Exception) {
