@@ -7,15 +7,16 @@ import javax.inject.Inject
 
 class PhotoRepository @Inject constructor(
     private val webService: WebService,
+    private val mapper: PhotoMapper,
 ) {
 
     suspend fun fetchAlbums(): List<AlbumItem> {
         val response = webService.fetchAlbums()
-        return albumMapper(albumList = response)
+        return mapper.mapAlbums(albumList = response)
     }
 
     suspend fun fetchPhotos(id: Int): List<PhotoItem> {
         val response = webService.fetchPhotos(id = id)
-        return photoMapper(photoList = response)
+        return mapper.mapPhotos(photoList = response)
     }
 }
