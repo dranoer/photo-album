@@ -22,7 +22,7 @@ class AlbumViewModel @Inject constructor(
         fetchAlbums()
     }
 
-    private fun fetchAlbums() {
+    fun fetchAlbums() {
         _albumState.value = AlbumUiState.Loading
         viewModelScope.launch {
             try {

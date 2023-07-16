@@ -84,4 +84,7 @@ dependencies {
 
     // Test
     testImplementation "junit:junit:$junit"
+    testImplementation "io.mockk:mockk:$mockk"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiter"
 }

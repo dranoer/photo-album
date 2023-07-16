@@ -11,13 +11,16 @@ buildscript {
         navigation = '2.6.0'
         hiltVersion = '2.42'
         hiltNavigation = '1.0.0'
-        junit = '4.13.2'
         ktlint = '10.2.0'
         retrofit = '2.9.0'
         okhttp = '4.11.0'
         serialization = '1.5.1'
         constraintlayout = '1.0.1'
         coil = '2.2.2'
+        junit = '4.13.2'
+        coroutine = '1.6.4'
+        mockk = '1.12.0'
+        junitJupiter = '5.9.2'
     }
 
     repositories {

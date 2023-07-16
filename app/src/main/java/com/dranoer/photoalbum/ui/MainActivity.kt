@@ -25,9 +25,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    /*
-        Due to the small scope of this app, the same instance of PhotoViewModel
-        is being shared between the PhotoScreen and DetailScreen.
+    /**
+     * Due to the small scope of this app, the same instance of PhotoViewModel
+     * is being shared between the PhotoScreen and DetailScreen.
      */
     private val photoViewModel: PhotoViewModel by viewModels()
 
