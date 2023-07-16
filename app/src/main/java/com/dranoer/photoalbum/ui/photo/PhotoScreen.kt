@@ -36,16 +36,15 @@ import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 @Composable
 fun PhotoScreen(
     albumId: String,
-    viewModel: PhotoViewModel = hiltViewModel(),
+    viewModel: PhotoViewModel,
     backPress: () -> Unit,
+    navigateToDetail: (String) -> Unit,
 ) {
     LaunchedEffect(key1 = albumId) {
         viewModel.fetchPhotos(albumId = albumId.toInt())
     }
 
     PhotoAlbumTheme {
-        val state = viewModel.photoState.collectAsState().value
-
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -54,7 +53,7 @@ fun PhotoScreen(
                         IconButton(onClick = { backPress() }) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = stringResource(id = R.string.app_name),
+                                contentDescription = stringResource(id = R.string.photos),
                                 tint = colorResource(id = R.color.black)
                             )
                         }
@@ -69,15 +68,16 @@ fun PhotoScreen(
                         .fillMaxSize()
                         .padding(padding)
                 ) {
-                    //region UI State
-                    when (state) {
-                        //region Loading
-                        is PhotoUiState.Loading -> {
-                            if (!state.isRefreshing) CircularProgressIndicator()
+                    when (val state = viewModel.photoState.collectAsState().value) {
+                        is PhotoUiState.Empty -> {
+                            Text(text = "No data available")
                         }
-                        //endregion
-                        //region Success
-                        is PhotoUiState.Success -> {
+
+                        is PhotoUiState.Loading -> {
+                            CircularProgressIndicator()
+                        }
+
+                        is PhotoUiState.Loaded -> {
                             LazyVerticalGrid(
                                 modifier = Modifier.padding(start = 18.dp, end = 18.dp),
                                 columns = GridCells.Adaptive(minSize = 128.dp),
@@ -86,23 +86,21 @@ fun PhotoScreen(
                                     //region Card
                                     PhotoCard(
                                         modifier = Modifier.wrapContentWidth(),
-                                        photo = photo
-                                    )
-                                    //endregion
+                                        photo = photo,
+                                        onPhotoClicked = { navigateToDetail(photo.id.toString()) }
+                                    ) //endregion
                                     //region Vertical Space
-                                    Spacer(modifier = Modifier.height(10.dp))
-                                    //endregion
+                                    Spacer(
+                                        modifier = Modifier.height(10.dp)
+                                    ) //endregion
                                 }
                             }
                         }
-                        //endregion
-                        //region Error
+
                         is PhotoUiState.Error -> {
-                            if (!state.isRefreshing) Text(text = "Oops! there is something wrong..")
+                            Text(text = "Oops! there is something wrong..")
                         }
-                        //endregion
                     }
-                    //endregion
                 }
             }
         )
@@ -114,7 +112,7 @@ fun PhotoScreen(
 @Composable
 private fun PhotoScreenPreview() {
     PhotoAlbumTheme {
-        PhotoScreen(albumId = "1", backPress = {})
+        PhotoScreen(viewModel = hiltViewModel(), albumId = "1", backPress = {}, navigateToDetail = {})
     }
 }
 //endregion

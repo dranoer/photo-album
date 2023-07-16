@@ -23,34 +23,31 @@ import com.dranoer.photoalbum.domain.model.PhotoItem
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 
 @Composable
-fun PhotoCard(modifier: Modifier, photo: PhotoItem) {
+fun PhotoCard(modifier: Modifier, photo: PhotoItem, onPhotoClicked: (String) -> Unit) {
     Surface(
         modifier = modifier.padding(10.dp),
     ) {
         val featuredString = stringResource(id = R.string.account)
         ConstraintLayout(
             modifier = Modifier
-                .clickable(
-                    onClick = { }
-                )
-                .semantics {
-                    contentDescription = featuredString
-                }
+                .clickable(onClick = { onPhotoClicked(photo.id.toString()) })
+                .semantics { contentDescription = featuredString }
         ) {
             val (image, name) = createRefs()
-
+            //region Photo
             AsyncImage(
-                model = photo.url,
-                contentDescription = "contentDescription",
-                placeholder = painterResource(R.drawable.ic_launcher_background),
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .aspectRatio(6f / 3f)
                     .constrainAs(image) {
                         centerHorizontallyTo(parent)
                         top.linkTo(parent.top)
-                    }
-            )
+                    },
+                model = photo.url,
+                contentDescription = photo.title,
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+                contentScale = ContentScale.Crop
+            ) //endregion
+            //region Title
             Text(
                 text = photo.title,
                 style = MaterialTheme.typography.bodySmall,
@@ -61,7 +58,7 @@ fun PhotoCard(modifier: Modifier, photo: PhotoItem) {
                         centerHorizontallyTo(parent)
                         top.linkTo(image.bottom)
                     }
-            )
+            ) //endregion
         }
     }
 }
@@ -79,7 +76,8 @@ private fun PhotoCardPreview() {
                 title = "This is a normal title.",
                 url = "",
                 thumbnailUrl = ""
-            )
+            ),
+            onPhotoClicked = {}
         )
     }
 }

@@ -51,15 +51,16 @@ fun AlbumScreen(
                     .navigationBarsPadding()
                     .padding(innerPadding)
             ) {
-                //region UI State
                 when (state) {
-                    //region Loading
-                    is AlbumUiState.Loading -> {
-                        if (!state.isRefreshing) CircularProgressIndicator()
+                    is AlbumUiState.Empty -> {
+                        Text(text = "No data available")
                     }
-                    //endregion
-                    //region Success
-                    is AlbumUiState.Success -> {
+
+                    is AlbumUiState.Loading -> {
+                        CircularProgressIndicator()
+                    }
+
+                    is AlbumUiState.Loaded -> {
                         LazyColumn(
                             modifier = Modifier.padding(start = 18.dp, top = 16.dp, end = 18.dp)
                         ) {
@@ -70,22 +71,19 @@ fun AlbumScreen(
                                     title = album.title,
                                     id = album.id.toString(),
                                     onAlbumClicked = { navigateToPhoto(album.id.toString()) }
-                                )
-                                //endregion
+                                ) //endregion
                                 //region Vertical Space
-                                Spacer(modifier = Modifier.height(10.dp))
-                                //endregion
+                                Spacer(
+                                    modifier = Modifier.height(10.dp),
+                                ) //endregion
                             }
                         }
                     }
-                    //endregion
-                    //region Error
+
                     is AlbumUiState.Error -> {
-                        if (!state.isRefreshing) Text(text = "Oops! there is something wrong..")
+                        Text(text = "Oops! there is something wrong..")
                     }
-                    //endregion
                 }
-                //endregion
             }
         }
     }

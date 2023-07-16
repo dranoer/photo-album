@@ -15,7 +15,7 @@ class AlbumViewModel @Inject constructor(
     private val repository: PhotoRepository,
 ) : ViewModel() {
 
-    private val _albumState = MutableStateFlow<AlbumUiState>(AlbumUiState.Loading())
+    private val _albumState = MutableStateFlow<AlbumUiState>(AlbumUiState.Empty)
     val albumState: StateFlow<AlbumUiState> = _albumState.asStateFlow()
 
     init {
@@ -23,12 +23,11 @@ class AlbumViewModel @Inject constructor(
     }
 
     private fun fetchAlbums() {
+        _albumState.value = AlbumUiState.Loading
         viewModelScope.launch {
-            _albumState.value = AlbumUiState.Loading()
-
             try {
                 val response = repository.fetchAlbums()
-                _albumState.value = AlbumUiState.Success(data = response)
+                _albumState.value = AlbumUiState.Loaded(data = response)
 
             } catch (e: Exception) {
                 _albumState.value = AlbumUiState.Error(message = e.message ?: "Unknown error")

@@ -7,6 +7,7 @@ object Constant {
     const val PHOTO_SCREEN = "photo"
     const val DETAIL_SCREEN = "detail"
     const val ALBUM_ID = "albumId"
+    const val PHOTO_ID = "photoId"
 
     // Network
     const val BASE_URL = "https://jsonplaceholder.typicode.com/"
