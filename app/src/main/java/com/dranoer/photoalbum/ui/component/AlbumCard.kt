@@ -1,7 +1,6 @@
 package com.dranoer.photoalbum.ui.component
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,24 +10,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
+import com.dranoer.photoalbum.util.getRandomColor
 
 @Composable
-fun AlbumCard(modifier: Modifier, id: String, title: String, onAlbumClicked: (String) -> Unit) {
+fun AlbumCard(
+    modifier: Modifier,
+    id: String,
+    title: String,
+    color: Color,
+    onAlbumClicked: (String) -> Unit,
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onAlbumClicked(id) },
         shape = RoundedCornerShape(10),
         colors = CardDefaults.cardColors(
-            containerColor = when (isSystemInDarkTheme()) {
-                true -> colorResource(id = R.color.gray_400)
-                false -> colorResource(id = R.color.white)
-            }
+            containerColor = color,
         ),
     ) {
         Text(
@@ -36,10 +40,7 @@ fun AlbumCard(modifier: Modifier, id: String, title: String, onAlbumClicked: (St
             text = title,
             maxLines = 1,
             style = MaterialTheme.typography.bodyMedium,
-            color = when (isSystemInDarkTheme()) {
-                true -> colorResource(id = R.color.white)
-                false -> colorResource(id = R.color.black)
-            },
+            color = colorResource(id = R.color.black),
         )
     }
 }
@@ -53,6 +54,7 @@ private fun AlbumCardPreview_Normal() {
             modifier = Modifier,
             id = "2",
             title = "Album title",
+            color = getRandomColor(),
             onAlbumClicked = {},
         )
     }
@@ -66,6 +68,7 @@ private fun AlbumCardPreview_LongTitle() {
             modifier = Modifier,
             id = "2",
             title = "This is a very long long long long long long long long long long long long long long long  title.",
+            color = getRandomColor(),
             onAlbumClicked = {},
         )
     }

@@ -28,6 +28,7 @@ import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.ui.component.AlbumCard
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
+import com.dranoer.photoalbum.util.getRandomColor
 import com.dranoer.rijksmuseum.ui.component.ErrorView
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -125,6 +126,7 @@ private fun AlbumList(
                     modifier = Modifier.wrapContentWidth(),
                     title = album.title,
                     id = album.id.toString(),
+                    color = getRandomColor(),
                     onAlbumClicked = { navigateToPhoto(album.id.toString()) }
                 ) //endregion
                 //region Vertical Space
