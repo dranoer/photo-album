@@ -1,5 +1,6 @@
 package com.dranoer.photoalbum.ui.component
 
+import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -33,6 +35,7 @@ fun DetailView(modifier: Modifier, title: String, url: String) {
     Surface {
         ConstraintLayout {
             val (image, spacer, text) = createRefs()
+            val orientation = LocalConfiguration.current.orientation
             //region Header Image
             AsyncImage(
                 modifier = modifier
@@ -40,10 +43,10 @@ fun DetailView(modifier: Modifier, title: String, url: String) {
                         top.linkTo(parent.top)
                         centerHorizontallyTo(parent)
                     }
-                    .aspectRatio(1f),
+                    .let { if (orientation == Configuration.ORIENTATION_PORTRAIT) it.aspectRatio(1f) else it },
                 model = url,
                 contentDescription = "",
-                placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                placeholder = painterResource(id = R.drawable.placeholder),
                 contentScale = ContentScale.Crop,
             ) //endregion
             //region Content
@@ -100,6 +103,18 @@ fun DetailView(modifier: Modifier, title: String, url: String) {
 private fun DetailViewPreview_Normal() {
     PhotoAlbumTheme {
         DetailView(modifier = Modifier, title = "This is a normal title.", url = "")
+    }
+}
+
+@Preview
+@Composable
+private fun DetailViewPreview_LongTitle() {
+    PhotoAlbumTheme {
+        DetailView(
+            modifier = Modifier,
+            title = "This is a very long long long long long long long long long long long long long long long  title.",
+            url = "",
+        )
     }
 }
 //endregion

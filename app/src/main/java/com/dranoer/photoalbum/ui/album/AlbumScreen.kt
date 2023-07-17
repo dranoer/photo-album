@@ -2,13 +2,10 @@ package com.dranoer.photoalbum.ui.album
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +17,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -30,6 +28,9 @@ import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.ui.component.AlbumCard
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
+import com.dranoer.rijksmuseum.ui.component.ErrorView
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,32 +65,44 @@ fun AlbumScreen(
                     ),
                 )
             }, //endregion
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .navigationBarsPadding()
-                    .padding(innerPadding)
-            ) {
-                when (state) {
-                    is AlbumUiState.Empty -> {
-                        Text(text = stringResource(id = R.string.no_data))
-                    }
+            //region Content
+            content = { padding ->
+                val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
 
-                    is AlbumUiState.Loading -> {
-                        CircularProgressIndicator()
-                    }
+                SwipeRefresh(
+                    state = swipeRefreshState,
+                    onRefresh = { viewModel.fetchAlbums() }
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues = padding),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        when (state) {
+                            is AlbumUiState.Empty -> {
+                                Text(text = stringResource(id = R.string.no_data))
+                            }
 
-                    is AlbumUiState.Loaded -> {
-                        AlbumList(data = state.data, navigateToPhoto = navigateToPhoto)
-                    }
+                            is AlbumUiState.Loading -> {
+                                CircularProgressIndicator()
+                            }
 
-                    is AlbumUiState.Error -> {
-                        Text(text = stringResource(id = R.string.error))
+                            is AlbumUiState.Loaded -> {
+                                AlbumList(data = state.data, navigateToPhoto = navigateToPhoto)
+                            }
+
+                            is AlbumUiState.Error -> {
+                                ErrorView(
+                                    message = state.message,
+                                    refresh = viewModel::fetchAlbums,
+                                )
+                            }
+                        }
                     }
                 }
-            }
-        }
+            } //endregion
+        )
     }
 }
 
@@ -134,7 +147,7 @@ private fun AlbumPreview_Normal() {
 
 @Preview
 @Composable
-private fun ScrollableLazyColumnPreview_Normal() {
+private fun AlbumListPreview_Normal() {
     PhotoAlbumTheme {
         AlbumList(
             data = listOf(
@@ -154,7 +167,7 @@ private fun ScrollableLazyColumnPreview_Normal() {
                     title = "This is a title"
                 )
             ),
-            navigateToPhoto = {}
+            navigateToPhoto = {},
         )
     }
 }

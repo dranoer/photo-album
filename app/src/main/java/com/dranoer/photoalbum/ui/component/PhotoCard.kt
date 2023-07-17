@@ -49,7 +49,7 @@ fun PhotoCard(modifier: Modifier, photo: PhotoItem, onPhotoClicked: (String) -> 
                     },
                 model = photo.url,
                 contentDescription = photo.title,
-                placeholder = painterResource(R.drawable.ic_launcher_background),
+                placeholder = painterResource(R.drawable.placeholder),
                 contentScale = ContentScale.Crop
             ) //endregion
             //region Title
@@ -96,6 +96,42 @@ private fun PhotoCardPreview_Normal() {
                 albumId = 1,
                 id = 2,
                 title = "This is a normal title.",
+                url = "",
+                thumbnailUrl = ""
+            ),
+            onPhotoClicked = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PhotoCardPreview_LongTitle() {
+    PhotoAlbumTheme {
+        PhotoCard(
+            modifier = Modifier,
+            photo = PhotoItem(
+                albumId = 1,
+                id = 2,
+                title = "This is a very long long long long long long long long long long long long long long long long long long long long long long long long long long long  title.",
+                url = "",
+                thumbnailUrl = ""
+            ),
+            onPhotoClicked = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PhotoCardPreview_EmptyTitle() {
+    PhotoAlbumTheme {
+        PhotoCard(
+            modifier = Modifier,
+            photo = PhotoItem(
+                albumId = 1,
+                id = 2,
+                title = "",
                 url = "",
                 thumbnailUrl = ""
             ),

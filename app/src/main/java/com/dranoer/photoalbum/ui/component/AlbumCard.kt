@@ -65,7 +65,7 @@ private fun AlbumCardPreview_LongTitle() {
         AlbumCard(
             modifier = Modifier,
             id = "2",
-            title = "This is a very very very very very very very very very very very very very very very very long title.",
+            title = "This is a very long long long long long long long long long long long long long long long  title.",
             onAlbumClicked = {},
         )
     }

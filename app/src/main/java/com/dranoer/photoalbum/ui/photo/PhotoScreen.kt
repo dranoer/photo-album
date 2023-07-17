@@ -23,6 +23,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -33,6 +34,9 @@ import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.domain.model.PhotoItem
 import com.dranoer.photoalbum.ui.component.PhotoCard
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
+import com.dranoer.rijksmuseum.ui.component.ErrorView
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,26 +90,36 @@ fun PhotoScreen(
             }, //endregion
             //region Content
             content = { padding ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
+                val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
+
+                SwipeRefresh(
+                    state = swipeRefreshState,
+                    onRefresh = { viewModel.fetchPhotos(albumId = albumId.toInt()) }
                 ) {
-                    when (val state = viewModel.photoState.collectAsState().value) {
-                        is PhotoUiState.Empty -> {
-                            Text(text = stringResource(R.string.no_data))
-                        }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        when (val state = viewModel.photoState.collectAsState().value) {
+                            is PhotoUiState.Empty -> {
+                                Text(text = stringResource(R.string.no_data))
+                            }
 
-                        is PhotoUiState.Loading -> {
-                            CircularProgressIndicator()
-                        }
+                            is PhotoUiState.Loading -> {
+                                CircularProgressIndicator()
+                            }
 
-                        is PhotoUiState.Loaded -> {
-                            PhotoList(data = state.data, navigateToDetail = navigateToDetail)
-                        }
+                            is PhotoUiState.Loaded -> {
+                                PhotoList(data = state.data, navigateToDetail = navigateToDetail)
+                            }
 
-                        is PhotoUiState.Error -> {
-                            Text(text = stringResource(R.string.error))
+                            is PhotoUiState.Error -> {
+                                ErrorView(message = state.message) {
+                                    viewModel.fetchPhotos(albumId = albumId.toInt())
+                                }
+                            }
                         }
                     }
                 }

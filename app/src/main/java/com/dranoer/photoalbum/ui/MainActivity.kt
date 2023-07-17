@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//region Internal
 @Composable
 private fun AppScreen(
     photoViewModel: PhotoViewModel,
@@ -96,7 +95,6 @@ private fun AppScreen(
         } //endregion
     }
 }
-//endregion
 
 //region Preview
 @Preview(showBackground = true)

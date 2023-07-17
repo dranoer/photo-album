@@ -3,7 +3,7 @@
     <string name="albums">Albums</string>
     <string name="photos">Photos</string>
     <string name="detail">Detail</string>
-    <string name="error">Oops! there is something wrong..</string>
     <string name="not_found">Not found</string>
-    <string name="no_data">No data available</string>
+    <string name="no_data">No data available!</string>
+    <string name="retry">Retry</string>
 </resources>
