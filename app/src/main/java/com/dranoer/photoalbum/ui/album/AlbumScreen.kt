@@ -1,7 +1,10 @@
 package com.dranoer.photoalbum.ui.album
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -14,16 +17,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dranoer.photoalbum.R
+import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.ui.component.AlbumCard
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 
@@ -37,13 +41,29 @@ fun AlbumScreen(
 
     PhotoAlbumTheme {
         Scaffold(
+            containerColor = when (isSystemInDarkTheme()) {
+                true -> colorResource(id = R.color.black)
+                false -> colorResource(id = R.color.gray_100)
+            },
+            //region Toolbar
             topBar = {
                 TopAppBar(
-                    title = { Text(text = stringResource(id = R.string.app_name)) },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = colorResource(id = R.color.gray_100))
+                    title = {
+                        Text(
+                            text = stringResource(id = R.string.albums), color = when (isSystemInDarkTheme()) {
+                                true -> colorResource(id = R.color.gray_100)
+                                false -> colorResource(id = R.color.gray_500)
+                            }
+                        )
+                    },
+                    colors = topAppBarColors(
+                        containerColor = when (isSystemInDarkTheme()) {
+                            true -> colorResource(id = R.color.black)
+                            false -> colorResource(id = R.color.gray_100)
+                        }
+                    ),
                 )
-            },
-            containerColor = colorResource(id = R.color.gray_100),
+            }, //endregion
         ) { innerPadding ->
             Column(
                 modifier = Modifier
@@ -53,7 +73,7 @@ fun AlbumScreen(
             ) {
                 when (state) {
                     is AlbumUiState.Empty -> {
-                        Text(text = "No data available")
+                        Text(text = stringResource(id = R.string.no_data))
                     }
 
                     is AlbumUiState.Loading -> {
@@ -61,27 +81,11 @@ fun AlbumScreen(
                     }
 
                     is AlbumUiState.Loaded -> {
-                        LazyColumn(
-                            modifier = Modifier.padding(start = 18.dp, top = 16.dp, end = 18.dp)
-                        ) {
-                            items(state.data) { album ->
-                                //region Card
-                                AlbumCard(
-                                    modifier = Modifier.wrapContentWidth(),
-                                    title = album.title,
-                                    id = album.id.toString(),
-                                    onAlbumClicked = { navigateToPhoto(album.id.toString()) }
-                                ) //endregion
-                                //region Vertical Space
-                                Spacer(
-                                    modifier = Modifier.height(10.dp),
-                                ) //endregion
-                            }
-                        }
+                        AlbumList(data = state.data, navigateToPhoto = navigateToPhoto)
                     }
 
                     is AlbumUiState.Error -> {
-                        Text(text = "Oops! there is something wrong..")
+                        Text(text = stringResource(id = R.string.error))
                     }
                 }
             }
@@ -89,20 +93,69 @@ fun AlbumScreen(
     }
 }
 
-//region Preview
-@Preview(name = "Album")
 @Composable
-private fun AlbumPreview() {
+private fun AlbumList(
+    data: List<AlbumItem>,
+    navigateToPhoto: (String) -> Unit,
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.padding(
+                start = dimensionResource(id = R.dimen.size_26),
+                top = dimensionResource(id = R.dimen.size_8),
+                end = dimensionResource(id = R.dimen.size_26)
+            ),
+        ) {
+            items(data) { album ->
+                //region Card
+                AlbumCard(
+                    modifier = Modifier.wrapContentWidth(),
+                    title = album.title,
+                    id = album.id.toString(),
+                    onAlbumClicked = { navigateToPhoto(album.id.toString()) }
+                ) //endregion
+                //region Vertical Space
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.size_12)),
+                ) //endregion
+            }
+        }
+    }
+}
+
+//region Preview
+@Preview
+@Composable
+private fun AlbumPreview_Normal() {
     PhotoAlbumTheme {
         AlbumScreen(navigateToPhoto = {})
     }
 }
 
-@Preview(name = "Card")
+@Preview
 @Composable
-private fun CardPreview() {
+private fun ScrollableLazyColumnPreview_Normal() {
     PhotoAlbumTheme {
-        AlbumCard(modifier = Modifier, title = "Title", id = "1", onAlbumClicked = {})
+        AlbumList(
+            data = listOf(
+                AlbumItem(
+                    userId = 1,
+                    id = 2,
+                    title = "This is a title"
+                ),
+                AlbumItem(
+                    userId = 1,
+                    id = 2,
+                    title = "This is a title"
+                ),
+                AlbumItem(
+                    userId = 1,
+                    id = 2,
+                    title = "This is a title"
+                )
+            ),
+            navigateToPhoto = {}
+        )
     }
 }
 //endregion

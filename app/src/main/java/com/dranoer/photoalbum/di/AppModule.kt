@@ -4,7 +4,7 @@ import com.dranoer.photoalbum.data.remote.WebService
 import com.dranoer.photoalbum.domain.PhotoMapper
 import com.dranoer.photoalbum.domain.PhotoRepository
 import com.dranoer.photoalbum.util.Constant.BASE_URL
-import com.dranoer.photoalbum.util.Constant.NETWORK_REQUEST_TIMEOUT_SECONDS
+import com.dranoer.photoalbum.util.Constant.NETWORK_REQUEST_TIMEOUT
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,9 +22,9 @@ class AppModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
-            .connectTimeout(NETWORK_REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            .readTimeout(NETWORK_REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            .writeTimeout(NETWORK_REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .connectTimeout(NETWORK_REQUEST_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(NETWORK_REQUEST_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(NETWORK_REQUEST_TIMEOUT, TimeUnit.SECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY

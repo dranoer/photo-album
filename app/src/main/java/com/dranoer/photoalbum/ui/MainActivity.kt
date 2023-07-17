@@ -1,11 +1,11 @@
 package com.dranoer.photoalbum.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.ui.album.AlbumScreen
 import com.dranoer.photoalbum.ui.photo.PhotoDetailScreen
 import com.dranoer.photoalbum.ui.photo.PhotoScreen
@@ -67,8 +68,7 @@ private fun AppScreen(
                 }
             )) { backStackEntry ->
             val albumId = backStackEntry.arguments?.getString(Constant.ALBUM_ID)
-            Log.d("naz", "album id >> $albumId")
-            requireNotNull(albumId) { "naz ID not found" }
+            requireNotNull(albumId) { stringResource(id = R.string.not_found) }
             PhotoScreen(
                 viewModel = photoViewModel,
                 albumId = albumId,
@@ -86,7 +86,6 @@ private fun AppScreen(
             )
         ) { backStackEntry ->
             val photoId = backStackEntry.arguments?.getString(Constant.PHOTO_ID)
-            Log.d("naz", "photo id >> $photoId")
             val selectedPhoto = photoViewModel.getPhotoDetail(photoId = photoId?.toInt() ?: 0)
             selectedPhoto?.let {
                 PhotoDetailScreen(
@@ -102,7 +101,7 @@ private fun AppScreen(
 //region Preview
 @Preview(showBackground = true)
 @Composable
-fun MainPreview() {
+private fun MainPreview_Normal() {
     PhotoAlbumTheme {
         AppScreen(photoViewModel = hiltViewModel())
     }
