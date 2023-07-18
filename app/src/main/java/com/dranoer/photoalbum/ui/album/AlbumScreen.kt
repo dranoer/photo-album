@@ -57,8 +57,7 @@ fun AlbumScreen(
                     title = {
                         Text(
                             text = stringResource(id = R.string.albums),
-                            color = when (isSystemInDarkTheme()
-                            ) {
+                            color = when (isSystemInDarkTheme()) {
                                 true -> colorResource(id = R.color.gray_100)
                                 false -> colorResource(id = R.color.gray_500)
                             }

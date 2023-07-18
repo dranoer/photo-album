@@ -61,8 +61,7 @@ The following libraries and tools were utilized in the project:
 ## Future Improvements 🛠
 While the project is functional and robust, there are areas that could see improvements in the future:
 
-- **Paganiation**: Since the JSONPlaceholder API does not support pagination, the app currently does not feature pagination capabilities. If the API were to support it in the future, pagination would be an ideal addition.
+- **Paging**: Since the JSONPlaceholder API does not support pagination, the app currently does not feature pagination capabilities. If the API were to support it in the future, pagination would be an ideal addition.
 - **Expanded Test Coverage**: More comprehensive unit and UI tests to ensure the app's stability.
-- **Improved Error Handling**: Refine the current error handling to manage different error types more comprehensively, providing clear user feedback.
 - **User Experience**: Refine the UI and UX design of the app for a more engaging user experience.
 <br><br>
