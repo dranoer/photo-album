@@ -4,6 +4,7 @@ import com.dranoer.photoalbum.domain.PhotoRepository
 import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.ui.album.AlbumUiState
 import com.dranoer.photoalbum.ui.album.AlbumViewModel
+import com.dranoer.photoalbum.util.exception.AppException
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -61,11 +62,11 @@ class AlbumViewModelTest {
         }
 
     @Test
-    fun `WHEN there is an error retrieving album data THEN fetchAlbums updates AlbumUiState to Error`() =
+    fun `WHEN NetworkException is thrown THEN fetchAlbums updates AlbumUiState to Error with correct message`() =
         runBlocking {
             // GIVEN
-            val exceptionMessage = "Failed to retrieve data"
-            coEvery { repository.fetchAlbums() } throws Exception(exceptionMessage)
+            val exceptionMessage = "Network error"
+            coEvery { repository.fetchAlbums() } throws AppException.NetworkException(exceptionMessage)
 
             // WHEN
             viewModel.fetchAlbums()
@@ -75,5 +76,32 @@ class AlbumViewModelTest {
             val expectedState = AlbumUiState.Error(message = exceptionMessage)
             val actualState = viewModel.albumState.value as AlbumUiState.Error
             assertEquals(expectedState.message, actualState.message)
+        }
+
+    @Test
+    fun `WHEN DataNotFoundException is thrown THEN fetchAlbums updates AlbumUiState to Error with correct message`() =
+        runBlocking {
+            // GIVEN
+            val exceptionMessage = "Data not found"
+            coEvery { repository.fetchAlbums() } throws AppException.DataNotFoundException(exceptionMessage)
+
+            // WHEN
+            viewModel.fetchAlbums()
+
+            // THEN
+            delay(1000)
+            val expectedState = AlbumUiState.Error(message = exceptionMessage)
+            val actualState = viewModel.albumState.value as AlbumUiState.Error
+            assertEquals(expectedState.message, actualState.message)
+        }
+
+    @Test
+    fun `WHEN ViewModel is initialized THEN AlbumUiState is Empty`() =
+        runBlocking {
+            // WHEN
+            val actualState = viewModel.albumState.value
+
+            // THEN
+            assertEquals(AlbumUiState.Empty, actualState)
         }
 }
