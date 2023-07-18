@@ -48,14 +48,14 @@ class PhotoRepositoryTest {
                 AlbumModel(
                     userId = 1,
                     id = 2,
-                    title = "This is a title"
+                    title = "Album title"
                 )
             )
             val mockAlbumItem = listOf(
                 AlbumItem(
                     userId = 1,
                     id = 2,
-                    title = "This is a title"
+                    title = "Album title"
                 )
             )
             coEvery { webService.fetchAlbums() } returns mockAlbumModel
@@ -78,18 +78,18 @@ class PhotoRepositoryTest {
                 PhotoModel(
                     albumId = 1,
                     id = 2,
-                    title = "This is a normal title.",
-                    url = "",
-                    thumbnailUrl = ""
+                    title = "Photo title",
+                    url = "url",
+                    thumbnailUrl = "thumbnailUrl"
                 ),
             )
             val mockPhotoItem = listOf(
                 PhotoItem(
                     albumId = 1,
                     id = 2,
-                    title = "This is a normal title.",
-                    url = "",
-                    thumbnailUrl = ""
+                    title = "Photo title",
+                    url = "url",
+                    thumbnailUrl = "thumbnailUrl"
                 ),
             )
             coEvery { webService.fetchPhotos(id = albumId) } returns mockPhotoModel
@@ -101,5 +101,36 @@ class PhotoRepositoryTest {
             // THEN
             assertEquals(mockPhotoItem, result)
             coVerify { mapper.mapPhotos(mockPhotoModel) }
+        }
+
+    @Test
+    fun `WHEN an exception is thrown during album data retrieval THEN fetchAlbums throws an AppException`() =
+        runBlocking {
+            // GIVEN
+            val exceptionMessage = "Network error"
+            coEvery { webService.fetchAlbums() } throws Exception(exceptionMessage)
+
+            // WHEN
+            val result = runCatching { repository.fetchAlbums() }
+
+            // THEN
+            assert(result.isFailure)
+            assertEquals(exceptionMessage, result.exceptionOrNull()?.message)
+        }
+
+    @Test
+    fun `WHEN an exception is thrown during photo data retrieval THEN fetchPhotos throws an AppException`() =
+        runBlocking {
+            // GIVEN
+            val albumId = 1
+            val exceptionMessage = "Failed to retrieve data"
+            coEvery { webService.fetchPhotos(id = albumId) } throws Exception(exceptionMessage)
+
+            // WHEN
+            val result = runCatching { repository.fetchPhotos(id = albumId) }
+
+            // THEN
+            assert(result.isFailure)
+            assertEquals(exceptionMessage, result.exceptionOrNull()?.message)
         }
 }
