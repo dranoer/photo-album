@@ -95,9 +95,9 @@ private fun PhotoCardPreview_Normal() {
             photo = PhotoItem(
                 albumId = 1,
                 id = 2,
-                title = "This is a normal title.",
-                url = "",
-                thumbnailUrl = ""
+                title = "PhotoItem title.",
+                url = "url",
+                thumbnailUrl = "thumbnailUrl"
             ),
             onPhotoClicked = {}
         )
@@ -113,9 +113,9 @@ private fun PhotoCardPreview_LongTitle() {
             photo = PhotoItem(
                 albumId = 1,
                 id = 2,
-                title = "This is a very long long long long long long long long long long long long long long long long long long long long long long long long long long long  title.",
-                url = "",
-                thumbnailUrl = ""
+                title = "This is a very long long long long long long long long long long long long long long long long long long long long long long long long long long long PhotoItem title.",
+                url = "url",
+                thumbnailUrl = "thumbnailUrl"
             ),
             onPhotoClicked = {}
         )
@@ -131,9 +131,9 @@ private fun PhotoCardPreview_EmptyTitle() {
             photo = PhotoItem(
                 albumId = 1,
                 id = 2,
-                title = "",
-                url = "",
-                thumbnailUrl = ""
+                title = "PhotoItem title",
+                url = "url",
+                thumbnailUrl = "thumbnailUrl"
             ),
             onPhotoClicked = {}
         )

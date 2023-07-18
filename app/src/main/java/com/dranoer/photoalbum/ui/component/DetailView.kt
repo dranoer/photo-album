@@ -102,7 +102,11 @@ fun DetailView(modifier: Modifier, title: String, url: String) {
 @Composable
 private fun DetailViewPreview_Normal() {
     PhotoAlbumTheme {
-        DetailView(modifier = Modifier, title = "This is a normal title.", url = "")
+        DetailView(
+            modifier = Modifier,
+            title = "DetailView title.",
+            url = "url",
+        )
     }
 }
 
@@ -112,8 +116,8 @@ private fun DetailViewPreview_LongTitle() {
     PhotoAlbumTheme {
         DetailView(
             modifier = Modifier,
-            title = "This is a very long long long long long long long long long long long long long long long  title.",
-            url = "",
+            title = "This is a very long long long long long long long long long long long long long long long DetailView title.",
+            url = "url",
         )
     }
 }

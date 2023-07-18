@@ -79,9 +79,9 @@ private fun DetailScreenPreview_Normal() {
             photo = PhotoItem(
                 albumId = 1,
                 id = 2,
-                title = "This is a normal title.",
-                url = "",
-                thumbnailUrl = ""
+                title = "PhotoItem title.",
+                url = "url",
+                thumbnailUrl = "thumbnailUrl"
             )
         )
     }

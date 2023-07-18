@@ -172,16 +172,16 @@ private fun PhotoListPreview_Normal() {
                 PhotoItem(
                     albumId = 1,
                     id = 2,
-                    title = "This is a normal title.",
-                    url = "",
-                    thumbnailUrl = ""
+                    title = "PhotoItem title.",
+                    url = "url",
+                    thumbnailUrl = "thumbnailUrl"
                 ),
                 PhotoItem(
                     albumId = 3,
                     id = 4,
-                    title = "This is a very long long long long long long long long long long long long long long long  title.",
-                    url = "",
-                    thumbnailUrl = ""
+                    title = "This is a very long long long long long long long long long long long long long long long PhotoItem title.",
+                    url = "url",
+                    thumbnailUrl = "thumbnailUrl"
                 ),
             ),
             navigateToDetail = {},

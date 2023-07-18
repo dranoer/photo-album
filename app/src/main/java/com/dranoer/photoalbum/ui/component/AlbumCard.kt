@@ -53,7 +53,7 @@ private fun AlbumCardPreview_Normal() {
         AlbumCard(
             modifier = Modifier,
             id = "2",
-            title = "Album title",
+            title = "AlbumItem title",
             color = getRandomColor(),
             onAlbumClicked = {},
         )
@@ -67,7 +67,7 @@ private fun AlbumCardPreview_LongTitle() {
         AlbumCard(
             modifier = Modifier,
             id = "2",
-            title = "This is a very long long long long long long long long long long long long long long long  title.",
+            title = "This is a very long long long long long long long long long long long long long long long AlbumItem title.",
             color = getRandomColor(),
             onAlbumClicked = {},
         )

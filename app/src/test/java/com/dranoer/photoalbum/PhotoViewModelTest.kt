@@ -47,16 +47,16 @@ class PhotoViewModelTest {
                 PhotoItem(
                     albumId = 1,
                     id = 2,
-                    title = "This is a normal title.",
-                    url = "",
-                    thumbnailUrl = ""
+                    title = "PhotoItem title.",
+                    url = "url",
+                    thumbnailUrl = "thumbnailUrl"
                 ),
                 PhotoItem(
                     albumId = 3,
                     id = 4,
-                    title = "This is a normal title.",
-                    url = "",
-                    thumbnailUrl = ""
+                    title = "PhotoItem title.",
+                    url = "url",
+                    thumbnailUrl = "thumbnailUrl"
                 )
             )
             coEvery { repository.fetchPhotos(albumId) } returns photos

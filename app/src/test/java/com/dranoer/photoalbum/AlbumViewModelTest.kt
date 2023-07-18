@@ -42,11 +42,11 @@ class AlbumViewModelTest {
     fun `WHEN album data retrieved successfully THEN fetchAlbums updates AlbumUiState to Loaded`() =
         runBlocking {
             // GIVE
-            val albums = listOf<AlbumItem>(
+            val albums = listOf(
                 AlbumItem(
                     userId = 1,
                     id = 2,
-                    title = "This is a title"
+                    title = "AlbumItem title"
                 )
             )
             coEvery { repository.fetchAlbums() } returns albums

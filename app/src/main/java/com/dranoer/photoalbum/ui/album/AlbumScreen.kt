@@ -160,17 +160,17 @@ private fun AlbumListPreview_Normal() {
                 AlbumItem(
                     userId = 1,
                     id = 2,
-                    title = "This is a title"
+                    title = "AlbumItem title"
                 ),
                 AlbumItem(
                     userId = 1,
                     id = 2,
-                    title = "This is a title"
+                    title = "AlbumItem title"
                 ),
                 AlbumItem(
                     userId = 1,
                     id = 2,
-                    title = "This is a title"
+                    title = "AlbumItem title"
                 )
             ),
             navigateToPhoto = {},
