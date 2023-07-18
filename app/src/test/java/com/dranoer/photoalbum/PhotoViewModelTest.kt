@@ -4,6 +4,7 @@ import com.dranoer.photoalbum.domain.PhotoRepository
 import com.dranoer.photoalbum.domain.model.PhotoItem
 import com.dranoer.photoalbum.ui.photo.PhotoUiState
 import com.dranoer.photoalbum.ui.photo.PhotoViewModel
+import com.dranoer.photoalbum.util.exception.AppException
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -71,12 +72,12 @@ class PhotoViewModelTest {
         }
 
     @Test
-    fun `WHEN there is an error retrieving photo data THEN fetchPhotos updates PhotoUiState to Error`() =
+    fun `WHEN NetworkException is thrown THEN fetchPhotos updates PhotoUiState to Error with correct message`() =
         runBlocking {
             // GIVEN
             val albumId = 1
-            val exceptionMessage = "Failed to retrieve data"
-            coEvery { repository.fetchPhotos(id = albumId) } throws Exception(exceptionMessage)
+            val exceptionMessage = "Network error"
+            coEvery { repository.fetchPhotos(albumId) } throws AppException.NetworkException(exceptionMessage)
 
             // WHEN
             viewModel.fetchPhotos(albumId = albumId)
@@ -86,5 +87,33 @@ class PhotoViewModelTest {
             val expectedState = PhotoUiState.Error(message = exceptionMessage)
             val actualState = viewModel.photoState.value as PhotoUiState.Error
             assertEquals(expectedState.message, actualState.message)
+        }
+
+    @Test
+    fun `WHEN DataNotFoundException is thrown THEN fetchPhotos updates PhotoUiState to Error with correct message`() =
+        runBlocking {
+            // GIVEN
+            val albumId = 1
+            val exceptionMessage = "Data not found"
+            coEvery { repository.fetchPhotos(albumId) } throws AppException.DataNotFoundException(exceptionMessage)
+
+            // WHEN
+            viewModel.fetchPhotos(albumId = albumId)
+
+            // THEN
+            delay(1000)
+            val expectedState = PhotoUiState.Error(message = exceptionMessage)
+            val actualState = viewModel.photoState.value as PhotoUiState.Error
+            assertEquals(expectedState.message, actualState.message)
+        }
+
+    @Test
+    fun `WHEN ViewModel is initialized THEN PhotoUiState is Empty`() =
+        runBlocking {
+            // WHEN
+            val actualState = viewModel.photoState.value
+
+            // THEN
+            assertEquals(PhotoUiState.Empty, actualState)
         }
 }
