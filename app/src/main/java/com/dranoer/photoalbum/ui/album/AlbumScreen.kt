@@ -56,7 +56,9 @@ fun AlbumScreen(
                 TopAppBar(
                     title = {
                         Text(
-                            text = stringResource(id = R.string.albums), color = when (isSystemInDarkTheme()) {
+                            text = stringResource(id = R.string.albums),
+                            color = when (isSystemInDarkTheme()
+                            ) {
                                 true -> colorResource(id = R.color.gray_100)
                                 false -> colorResource(id = R.color.gray_500)
                             }

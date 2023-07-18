@@ -25,7 +25,6 @@ class AlbumViewModel @Inject constructor(
             try {
                 val response = repository.fetchAlbums()
                 _albumState.value = AlbumUiState.Loaded(data = response)
-
             } catch (e: AppException) {
                 when (e) {
                     is AppException.NetworkException -> {

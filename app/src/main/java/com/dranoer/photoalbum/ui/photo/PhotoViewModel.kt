@@ -28,10 +28,11 @@ class PhotoViewModel @Inject constructor(
                 _photoState.value = PhotoUiState.Loaded(data = result, isRefreshing = false)
             } catch (e: AppException) {
                 when (e) {
-                    is AppException.NetworkException ->{
+                    is AppException.NetworkException -> {
                         _photoState.value = PhotoUiState.Error(message = e.message ?: "Network error")
                     }
-                    is AppException.DataNotFoundException ->{
+
+                    is AppException.DataNotFoundException -> {
                         _photoState.value = PhotoUiState.Error(message = e.message ?: "Data not found")
                     }
                 }

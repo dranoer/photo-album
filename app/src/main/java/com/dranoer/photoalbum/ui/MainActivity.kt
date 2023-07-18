@@ -65,7 +65,8 @@ private fun AppScreen(
                 navArgument(Constant.ALBUM_ID) {
                     type = NavType.StringType
                 }
-            )) { backStackEntry ->
+            )
+        ) { backStackEntry ->
             val albumId = backStackEntry.arguments?.getString(Constant.ALBUM_ID)
             requireNotNull(albumId) { stringResource(id = R.string.not_found) }
             PhotoScreen(
