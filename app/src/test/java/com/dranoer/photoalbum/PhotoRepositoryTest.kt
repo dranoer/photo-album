@@ -44,20 +44,8 @@ class PhotoRepositoryTest {
     fun `WHEN album data is retrieved successfully THEN fetchAlbums returns a list of AlbumItem`() =
         runBlocking {
             // GIVEN
-            val mockAlbumModel = listOf(
-                AlbumModel(
-                    userId = 1,
-                    id = 2,
-                    title = "Album title"
-                )
-            )
-            val mockAlbumItem = listOf(
-                AlbumItem(
-                    userId = 1,
-                    id = 2,
-                    title = "Album title"
-                )
-            )
+            val mockAlbumModel: List<AlbumModel> = listOf(mockk())
+            val mockAlbumItem: List<AlbumItem> = listOf(mockk())
             coEvery { webService.fetchAlbums() } returns mockAlbumModel
             coEvery { mapper.mapAlbums(mockAlbumModel) } returns mockAlbumItem
 
@@ -74,24 +62,8 @@ class PhotoRepositoryTest {
         runBlocking {
             // GIVEN
             val albumId = 1
-            val mockPhotoModel = listOf(
-                PhotoModel(
-                    albumId = 1,
-                    id = 2,
-                    title = "Photo title",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                ),
-            )
-            val mockPhotoItem = listOf(
-                PhotoItem(
-                    albumId = 1,
-                    id = 2,
-                    title = "Photo title",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                ),
-            )
+            val mockPhotoModel: List<PhotoModel> = listOf(mockk())
+            val mockPhotoItem: List<PhotoItem> = listOf(mockk())
             coEvery { webService.fetchPhotos(id = albumId) } returns mockPhotoModel
             coEvery { mapper.mapPhotos(mockPhotoModel) } returns mockPhotoItem
 

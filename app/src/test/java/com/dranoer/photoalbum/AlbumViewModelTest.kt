@@ -41,22 +41,16 @@ class AlbumViewModelTest {
     @Test
     fun `WHEN album data retrieved successfully THEN fetchAlbums updates AlbumUiState to Loaded`() =
         runBlocking {
-            // GIVE
-            val albums = listOf(
-                AlbumItem(
-                    userId = 1,
-                    id = 2,
-                    title = "AlbumItem title"
-                )
-            )
-            coEvery { repository.fetchAlbums() } returns albums
+            // GIVEN
+            val mockAlbums: List<AlbumItem> = listOf(mockk())
+            coEvery { repository.fetchAlbums() } returns mockAlbums
 
             // WHEN
             viewModel.fetchAlbums()
 
             // THEN
             delay(1000)
-            val expectedState = AlbumUiState.Loaded(data = albums)
+            val expectedState = AlbumUiState.Loaded(data = mockAlbums)
             val actualState = viewModel.albumState.value as AlbumUiState.Loaded
             assertEquals(expectedState.data, actualState.data)
         }

@@ -43,30 +43,15 @@ class PhotoViewModelTest {
         runBlocking {
             // GIVE
             val albumId = 1
-            val photos = listOf<PhotoItem>(
-                PhotoItem(
-                    albumId = 1,
-                    id = 2,
-                    title = "PhotoItem title.",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                ),
-                PhotoItem(
-                    albumId = 3,
-                    id = 4,
-                    title = "PhotoItem title.",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                )
-            )
-            coEvery { repository.fetchPhotos(albumId) } returns photos
+            val mockPhotos: List<PhotoItem> = listOf(mockk(), mockk())
+            coEvery { repository.fetchPhotos(albumId) } returns mockPhotos
 
             // WHEN
             viewModel.fetchPhotos(albumId = albumId)
 
             // THEN
             delay(1000)
-            val expectedState = PhotoUiState.Loaded(data = photos)
+            val expectedState = PhotoUiState.Loaded(data = mockPhotos)
             val actualState = viewModel.photoState.value as PhotoUiState.Loaded
             assertEquals(expectedState.data, actualState.data)
         }
