@@ -19,7 +19,7 @@ class PhotoMapperTest {
 
     @Test
     fun `WHEN mapAlbums is called THEN it returns a list of AlbumItem`() {
-        // Given
+        // GIVEN
         val albumModel =
             AlbumModel(
                 userId = 1,
@@ -33,16 +33,16 @@ class PhotoMapperTest {
                 title = "Album title"
             )
 
-        // When
+        // WHEN
         val result = mapper.mapAlbums(listOf(albumModel))
 
-        // Then
+        // THEN
         assertEquals(listOf(expectedAlbumItem), result)
     }
 
     @Test
     fun `WHEN mapPhotos is called THEN it returns a list of PhotoItem`() {
-        // Given
+        // GIVEN
         val photoModel =
             PhotoModel(
                 albumId = 1,
@@ -60,10 +60,10 @@ class PhotoMapperTest {
                 thumbnailUrl = "thumbnailUrl"
             )
 
-        // When
+        // WHEN
         val result = mapper.mapPhotos(listOf(photoModel))
 
-        // Then
+        // THEN
         assertEquals(listOf(expectedPhotoItem), result)
     }
 }
