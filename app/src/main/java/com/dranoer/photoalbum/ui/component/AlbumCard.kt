@@ -73,4 +73,51 @@ private fun AlbumCardPreview_LongTitle() {
         )
     }
 }
+
+@Preview
+@Composable
+private fun AlbumCardPreview_NoTitle() {
+    PhotoAlbumTheme {
+        AlbumCard(
+            modifier = Modifier,
+            id = "2",
+            title = "",
+            color = getRandomColor(),
+            onAlbumClicked = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AlbumCardPreview_DarkTheme() {
+    PhotoAlbumTheme(darkTheme = true) {
+        AlbumCard(
+            modifier = Modifier,
+            id = "2",
+            title = "AlbumItem title.",
+            color = getRandomColor(),
+            onAlbumClicked = {},
+        )
+    }
+}
+
+/**
+ * This function depicts the `AlbumCard` composable in a state where it's clickable.
+ * This is to visualize the UI state in the Compose Preview,
+ * although actual click events are not interactive within the Preview.
+ */
+@Preview
+@Composable
+private fun AlbumCardPreview_Clickable() {
+    PhotoAlbumTheme {
+        AlbumCard(
+            modifier = Modifier,
+            id = "2",
+            title = "AlbumItem title.",
+            color = getRandomColor(),
+            onAlbumClicked = { clickedId -> println("Clicked on album with id: $clickedId") },
+        )
+    }
+}
 //endregion
