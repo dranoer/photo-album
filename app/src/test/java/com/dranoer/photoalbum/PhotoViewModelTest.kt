@@ -1,7 +1,6 @@
 package com.dranoer.photoalbum
 
 import com.dranoer.photoalbum.domain.PhotoRepository
-import com.dranoer.photoalbum.domain.model.PhotoItem
 import com.dranoer.photoalbum.ui.model.PhotoUiState
 import com.dranoer.photoalbum.ui.photo.PhotoViewModel
 import com.dranoer.photoalbum.util.UiModelMapper

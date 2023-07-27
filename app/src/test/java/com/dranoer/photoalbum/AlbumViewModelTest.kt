@@ -1,9 +1,8 @@
 package com.dranoer.photoalbum
 
 import com.dranoer.photoalbum.domain.PhotoRepository
-import com.dranoer.photoalbum.domain.model.AlbumItem
-import com.dranoer.photoalbum.ui.model.AlbumUiState
 import com.dranoer.photoalbum.ui.album.AlbumViewModel
+import com.dranoer.photoalbum.ui.model.AlbumUiState
 import com.dranoer.photoalbum.util.UiModelMapper
 import com.dranoer.photoalbum.util.exception.AppException
 import io.mockk.coEvery
