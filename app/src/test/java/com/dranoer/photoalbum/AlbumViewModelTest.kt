@@ -1,7 +1,9 @@
 package com.dranoer.photoalbum
 
 import com.dranoer.photoalbum.domain.PhotoRepository
+import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.ui.album.AlbumViewModel
+import com.dranoer.photoalbum.ui.model.AlbumUiModel
 import com.dranoer.photoalbum.ui.model.AlbumUiState
 import com.dranoer.photoalbum.util.UiModelMapper
 import com.dranoer.photoalbum.util.exception.AppException
@@ -24,14 +26,15 @@ class AlbumViewModelTest {
 
     private lateinit var viewModel: AlbumViewModel
     private lateinit var repository: PhotoRepository
-    private lateinit var mapper: UiModelMapper
+    private lateinit var uiMapper: UiModelMapper
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun set() {
         Dispatchers.setMain(testDispatcher)
+        uiMapper = mockk(relaxed = true)
         repository = mockk()
-        viewModel = AlbumViewModel(repository = repository, mapper = mapper)
+        viewModel = AlbumViewModel(repository = repository, mapper = uiMapper)
     }
 
     @After
@@ -39,22 +42,24 @@ class AlbumViewModelTest {
         Dispatchers.resetMain()
     }
 
-//    @Test
-//    fun `WHEN album data retrieved successfully THEN fetchAlbums updates AlbumUiState to Loaded`() =
-//        runBlocking {
-//            // GIVEN
-//            val mockAlbums: List<AlbumItem> = listOf(mockk())
-//            coEvery { repository.fetchAlbums() } returns mockAlbums
-//
-//            // WHEN
-//            viewModel.fetchAlbums()
-//
-//            // THEN
-//            delay(1000)
-//            val expectedState = AlbumUiState.Loaded(data = mockAlbums)
-//            val actualState = viewModel.albumState.value as AlbumUiState.Loaded
-//            assertEquals(expectedState.data, actualState.data)
-//        }
+    @Test
+    fun `WHEN album data retrieved successfully THEN fetchAlbums updates AlbumUiState to Loaded`() =
+        runBlocking {
+            // GIVEN
+            val mockAlbums: List<AlbumItem> = listOf(mockk())
+            val mockAlbumUiModel: List<AlbumUiModel> = listOf(mockk())
+            coEvery { repository.fetchAlbums() } returns mockAlbums
+            coEvery { uiMapper.mapAlbums(mockAlbums) } returns mockAlbumUiModel
+
+            // WHEN
+            viewModel.fetchAlbums()
+
+            // THEN
+            delay(1000)
+            val expectedState = AlbumUiState.Loaded(data = mockAlbumUiModel)
+            val actualState = viewModel.albumState.value as AlbumUiState.Loaded
+            assertEquals(expectedState.data, actualState.data)
+        }
 
     @Test
     fun `WHEN NetworkException is thrown THEN fetchAlbums updates AlbumUiState to Error with correct message`() =

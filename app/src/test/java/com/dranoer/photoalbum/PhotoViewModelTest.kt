@@ -1,6 +1,8 @@
 package com.dranoer.photoalbum
 
 import com.dranoer.photoalbum.domain.PhotoRepository
+import com.dranoer.photoalbum.domain.model.PhotoItem
+import com.dranoer.photoalbum.ui.model.PhotoUiModel
 import com.dranoer.photoalbum.ui.model.PhotoUiState
 import com.dranoer.photoalbum.ui.photo.PhotoViewModel
 import com.dranoer.photoalbum.util.UiModelMapper
@@ -24,14 +26,15 @@ class PhotoViewModelTest {
 
     private lateinit var viewModel: PhotoViewModel
     private lateinit var repository: PhotoRepository
-    private lateinit var mapper: UiModelMapper
+    private lateinit var uiMapper: UiModelMapper
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun set() {
         Dispatchers.setMain(testDispatcher)
+        uiMapper = mockk(relaxed = true)
         repository = mockk()
-        viewModel = PhotoViewModel(repository = repository, mapper = mapper)
+        viewModel = PhotoViewModel(repository = repository, mapper = uiMapper)
     }
 
     @After
@@ -39,23 +42,25 @@ class PhotoViewModelTest {
         Dispatchers.resetMain()
     }
 
-//    @Test
-//    fun `WHEN photo data retrieved successfully THEN fetchPhotos updates PhotoUiState to Loaded`() =
-//        runBlocking {
-//            // GIVE
-//            val albumId = 1
-//            val mockPhotos: List<PhotoItem> = listOf(mockk(), mockk())
-//            coEvery { repository.fetchPhotos(albumId) } returns mockPhotos
-//
-//            // WHEN
-//            viewModel.fetchPhotos(albumId = albumId)
-//
-//            // THEN
-//            delay(1000)
-//            val expectedState = PhotoUiState.Loaded(data = mockPhotos)
-//            val actualState = viewModel.photoState.value as PhotoUiState.Loaded
-//            assertEquals(expectedState.data, actualState.data)
-//        }
+    @Test
+    fun `WHEN photo data retrieved successfully THEN fetchPhotos updates PhotoUiState to Loaded`() =
+        runBlocking {
+            // GIVE
+            val albumId = 1
+            val mockPhotos: List<PhotoItem> = listOf(mockk(), mockk())
+            val mockPhotoUiModel: List<PhotoUiModel> = listOf(mockk())
+            coEvery { repository.fetchPhotos(albumId) } returns mockPhotos
+            coEvery { uiMapper.mapPhotos(mockPhotos) } returns mockPhotoUiModel
+
+            // WHEN
+            viewModel.fetchPhotos(albumId = albumId)
+
+            // THEN
+            delay(1000)
+            val expectedState = PhotoUiState.Loaded(data = mockPhotoUiModel)
+            val actualState = viewModel.photoState.value as PhotoUiState.Loaded
+            assertEquals(expectedState.data, actualState.data)
+        }
 
     @Test
     fun `WHEN NetworkException is thrown THEN fetchPhotos updates PhotoUiState to Error with correct message`() =

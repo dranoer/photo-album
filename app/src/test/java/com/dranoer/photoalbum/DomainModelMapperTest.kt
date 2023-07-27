@@ -10,11 +10,11 @@ import org.junit.Before
 import org.junit.Test
 
 class DomainModelMapperTest {
-    private lateinit var mapper: DomainModelMapper
+    private lateinit var domainMapper: DomainModelMapper
 
     @Before
     fun setUp() {
-        mapper = DomainModelMapper()
+        domainMapper = DomainModelMapper()
     }
 
     @Test
@@ -34,7 +34,7 @@ class DomainModelMapperTest {
             )
 
         // WHEN
-        val result = mapper.mapAlbums(listOf(albumModel))
+        val result = domainMapper.mapAlbums(listOf(albumModel))
 
         // THEN
         assertEquals(listOf(expectedAlbumItem), result)
@@ -61,7 +61,7 @@ class DomainModelMapperTest {
             )
 
         // WHEN
-        val result = mapper.mapPhotos(listOf(photoModel))
+        val result = domainMapper.mapPhotos(listOf(photoModel))
 
         // THEN
         assertEquals(listOf(expectedPhotoItem), result)
