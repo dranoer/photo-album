@@ -1,7 +1,7 @@
 package com.dranoer.photoalbum.di
 
 import com.dranoer.photoalbum.data.remote.WebService
-import com.dranoer.photoalbum.domain.PhotoMapper
+import com.dranoer.photoalbum.domain.DomainModelMapper
 import com.dranoer.photoalbum.domain.PhotoRepository
 import com.dranoer.photoalbum.util.Constant.BASE_URL
 import com.dranoer.photoalbum.util.Constant.NETWORK_REQUEST_TIMEOUT
@@ -45,9 +45,9 @@ class AppModule {
         retrofit.create(WebService::class.java)
 
     @Provides
-    fun provideMapper(): PhotoMapper = PhotoMapper()
+    fun provideDomainMapper(): DomainModelMapper = DomainModelMapper()
 
     @Provides
-    fun provideRepository(webService: WebService, mapper: PhotoMapper): PhotoRepository =
-        PhotoRepository(webService = webService, mapper = mapper)
+    fun provideRepository(webService: WebService, mapper: DomainModelMapper): PhotoRepository =
+        PhotoRepository(webService = webService, domainMapper = mapper)
 }

@@ -2,19 +2,19 @@ package com.dranoer.photoalbum
 
 import com.dranoer.photoalbum.data.remote.model.AlbumModel
 import com.dranoer.photoalbum.data.remote.model.PhotoModel
-import com.dranoer.photoalbum.domain.PhotoMapper
+import com.dranoer.photoalbum.domain.DomainModelMapper
 import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.domain.model.PhotoItem
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class PhotoMapperTest {
-    private lateinit var mapper: PhotoMapper
+class DomainModelMapperTest {
+    private lateinit var mapper: DomainModelMapper
 
     @Before
     fun setUp() {
-        mapper = PhotoMapper()
+        mapper = DomainModelMapper()
     }
 
     @Test
