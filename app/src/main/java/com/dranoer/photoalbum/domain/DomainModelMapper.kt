@@ -9,7 +9,11 @@ import javax.inject.Inject
 class DomainModelMapper @Inject constructor() {
     fun mapAlbums(albumList: List<AlbumModel>): List<AlbumItem> {
         return albumList.map { album ->
-            AlbumItem(userId = album.userId, id = album.id, title = album.title)
+            AlbumItem(
+                userId = album.userId,
+                id = album.id,
+                title = album.title,
+            )
         }
     }
 

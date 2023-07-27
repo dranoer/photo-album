@@ -5,6 +5,7 @@ import com.dranoer.photoalbum.domain.DomainModelMapper
 import com.dranoer.photoalbum.domain.PhotoRepository
 import com.dranoer.photoalbum.util.Constant.BASE_URL
 import com.dranoer.photoalbum.util.Constant.NETWORK_REQUEST_TIMEOUT
+import com.dranoer.photoalbum.util.UiModelMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,6 +47,9 @@ class AppModule {
 
     @Provides
     fun provideDomainMapper(): DomainModelMapper = DomainModelMapper()
+
+    @Provides
+    fun provideUiMapper(): UiModelMapper = UiModelMapper()
 
     @Provides
     fun provideRepository(webService: WebService, mapper: DomainModelMapper): PhotoRepository =
