@@ -3,7 +3,9 @@ package com.dranoer.photoalbum.ui.photo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dranoer.photoalbum.domain.PhotoRepository
-import com.dranoer.photoalbum.domain.model.PhotoItem
+import com.dranoer.photoalbum.ui.model.PhotoUiModel
+import com.dranoer.photoalbum.ui.model.PhotoUiState
+import com.dranoer.photoalbum.util.UiModelMapper
 import com.dranoer.photoalbum.util.exception.AppException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PhotoViewModel @Inject constructor(
     private val repository: PhotoRepository,
+    private val mapper: UiModelMapper,
 ) : ViewModel() {
 
     private val _photoState = MutableStateFlow<PhotoUiState>(PhotoUiState.Empty)
@@ -25,7 +28,8 @@ class PhotoViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = repository.fetchPhotos(id = albumId)
-                _photoState.value = PhotoUiState.Loaded(data = result, isRefreshing = false)
+                val uiModel = mapper.mapPhotos(photoList = result)
+                _photoState.value = PhotoUiState.Loaded(data = uiModel, isRefreshing = false)
             } catch (e: AppException) {
                 when (e) {
                     is AppException.NetworkException -> {
@@ -40,7 +44,7 @@ class PhotoViewModel @Inject constructor(
         }
     }
 
-    fun getPhotoDetail(photoId: Int): PhotoItem? {
+    fun getPhotoDetail(photoId: Int): PhotoUiModel? {
         return when (val state = _photoState.value) {
             is PhotoUiState.Loaded -> {
                 state.data.let { photos ->
