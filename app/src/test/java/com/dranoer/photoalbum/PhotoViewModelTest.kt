@@ -2,8 +2,10 @@ package com.dranoer.photoalbum
 
 import com.dranoer.photoalbum.domain.PhotoRepository
 import com.dranoer.photoalbum.domain.model.PhotoItem
-import com.dranoer.photoalbum.ui.photo.PhotoUiState
+import com.dranoer.photoalbum.ui.model.PhotoUiModel
+import com.dranoer.photoalbum.ui.model.PhotoUiState
 import com.dranoer.photoalbum.ui.photo.PhotoViewModel
+import com.dranoer.photoalbum.util.UiModelMapper
 import com.dranoer.photoalbum.util.exception.AppException
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -24,13 +26,15 @@ class PhotoViewModelTest {
 
     private lateinit var viewModel: PhotoViewModel
     private lateinit var repository: PhotoRepository
+    private lateinit var uiMapper: UiModelMapper
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun set() {
         Dispatchers.setMain(testDispatcher)
+        uiMapper = mockk(relaxed = true)
         repository = mockk()
-        viewModel = PhotoViewModel(repository = repository)
+        viewModel = PhotoViewModel(repository = repository, mapper = uiMapper)
     }
 
     @After
@@ -43,30 +47,17 @@ class PhotoViewModelTest {
         runBlocking {
             // GIVE
             val albumId = 1
-            val photos = listOf<PhotoItem>(
-                PhotoItem(
-                    albumId = 1,
-                    id = 2,
-                    title = "PhotoItem title.",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                ),
-                PhotoItem(
-                    albumId = 3,
-                    id = 4,
-                    title = "PhotoItem title.",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                )
-            )
-            coEvery { repository.fetchPhotos(albumId) } returns photos
+            val mockPhotos: List<PhotoItem> = listOf(mockk(), mockk())
+            val mockPhotoUiModel: List<PhotoUiModel> = listOf(mockk())
+            coEvery { repository.fetchPhotos(albumId) } returns mockPhotos
+            coEvery { uiMapper.mapPhotos(mockPhotos) } returns mockPhotoUiModel
 
             // WHEN
             viewModel.fetchPhotos(albumId = albumId)
 
             // THEN
             delay(1000)
-            val expectedState = PhotoUiState.Loaded(data = photos)
+            val expectedState = PhotoUiState.Loaded(data = mockPhotoUiModel)
             val actualState = viewModel.photoState.value as PhotoUiState.Loaded
             assertEquals(expectedState.data, actualState.data)
         }

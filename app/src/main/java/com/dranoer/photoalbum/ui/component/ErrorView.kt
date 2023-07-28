@@ -33,7 +33,7 @@ fun ErrorView(
 }
 
 //region Preview
-@Preview("Normal Error view")
+@Preview
 @Composable
 private fun PreviewErrorView_Normal() {
     PhotoAlbumTheme() {

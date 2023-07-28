@@ -3,7 +3,7 @@ package com.dranoer.photoalbum
 import com.dranoer.photoalbum.data.remote.WebService
 import com.dranoer.photoalbum.data.remote.model.AlbumModel
 import com.dranoer.photoalbum.data.remote.model.PhotoModel
-import com.dranoer.photoalbum.domain.PhotoMapper
+import com.dranoer.photoalbum.domain.DomainModelMapper
 import com.dranoer.photoalbum.domain.PhotoRepository
 import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.domain.model.PhotoItem
@@ -23,7 +23,7 @@ import org.junit.Test
 class PhotoRepositoryTest {
 
     private lateinit var webService: WebService
-    private lateinit var mapper: PhotoMapper
+    private lateinit var domainMapper: DomainModelMapper
     private lateinit var repository: PhotoRepository
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -31,8 +31,8 @@ class PhotoRepositoryTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         webService = mockk()
-        mapper = mockk(relaxed = true)
-        repository = PhotoRepository(webService = webService, mapper = mapper)
+        domainMapper = mockk(relaxed = true)
+        repository = PhotoRepository(webService = webService, domainMapper = domainMapper)
     }
 
     @After
@@ -44,29 +44,17 @@ class PhotoRepositoryTest {
     fun `WHEN album data is retrieved successfully THEN fetchAlbums returns a list of AlbumItem`() =
         runBlocking {
             // GIVEN
-            val mockAlbumModel = listOf(
-                AlbumModel(
-                    userId = 1,
-                    id = 2,
-                    title = "Album title"
-                )
-            )
-            val mockAlbumItem = listOf(
-                AlbumItem(
-                    userId = 1,
-                    id = 2,
-                    title = "Album title"
-                )
-            )
+            val mockAlbumModel: List<AlbumModel> = listOf(mockk())
+            val mockAlbumItem: List<AlbumItem> = listOf(mockk())
             coEvery { webService.fetchAlbums() } returns mockAlbumModel
-            coEvery { mapper.mapAlbums(mockAlbumModel) } returns mockAlbumItem
+            coEvery { domainMapper.mapAlbums(mockAlbumModel) } returns mockAlbumItem
 
             // WHEN
             val result = repository.fetchAlbums()
 
             // THEN
             assertEquals(mockAlbumItem, result)
-            coVerify { mapper.mapAlbums(mockAlbumModel) }
+            coVerify { domainMapper.mapAlbums(mockAlbumModel) }
         }
 
     @Test
@@ -74,33 +62,17 @@ class PhotoRepositoryTest {
         runBlocking {
             // GIVEN
             val albumId = 1
-            val mockPhotoModel = listOf(
-                PhotoModel(
-                    albumId = 1,
-                    id = 2,
-                    title = "Photo title",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                ),
-            )
-            val mockPhotoItem = listOf(
-                PhotoItem(
-                    albumId = 1,
-                    id = 2,
-                    title = "Photo title",
-                    url = "url",
-                    thumbnailUrl = "thumbnailUrl"
-                ),
-            )
+            val mockPhotoModel: List<PhotoModel> = listOf(mockk())
+            val mockPhotoItem: List<PhotoItem> = listOf(mockk())
             coEvery { webService.fetchPhotos(id = albumId) } returns mockPhotoModel
-            coEvery { mapper.mapPhotos(mockPhotoModel) } returns mockPhotoItem
+            coEvery { domainMapper.mapPhotos(mockPhotoModel) } returns mockPhotoItem
 
             // WHEN
             val result = repository.fetchPhotos(albumId)
 
             // THEN
             assertEquals(mockPhotoItem, result)
-            coVerify { mapper.mapPhotos(mockPhotoModel) }
+            coVerify { domainMapper.mapPhotos(mockPhotoModel) }
         }
 
     @Test

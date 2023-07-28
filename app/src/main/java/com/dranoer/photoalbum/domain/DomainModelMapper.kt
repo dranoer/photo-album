@@ -6,10 +6,14 @@ import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.domain.model.PhotoItem
 import javax.inject.Inject
 
-class PhotoMapper @Inject constructor() {
+class DomainModelMapper @Inject constructor() {
     fun mapAlbums(albumList: List<AlbumModel>): List<AlbumItem> {
         return albumList.map { album ->
-            AlbumItem(userId = album.userId, id = album.id, title = album.title)
+            AlbumItem(
+                userId = album.userId,
+                id = album.id,
+                title = album.title,
+            )
         }
     }
 

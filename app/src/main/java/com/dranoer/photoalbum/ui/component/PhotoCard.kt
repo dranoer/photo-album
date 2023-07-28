@@ -20,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import com.dranoer.photoalbum.R
-import com.dranoer.photoalbum.domain.model.PhotoItem
+import com.dranoer.photoalbum.ui.model.PhotoUiModel
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 
 @Composable
-fun PhotoCard(modifier: Modifier, photo: PhotoItem, onPhotoClicked: (String) -> Unit) {
+fun PhotoCard(modifier: Modifier, photo: PhotoUiModel, onPhotoClicked: (String) -> Unit) {
     Surface(
         modifier = modifier.padding(dimensionResource(id = R.dimen.size_10)),
         color = when (isSystemInDarkTheme()) {
@@ -92,7 +92,7 @@ private fun PhotoCardPreview_Normal() {
     PhotoAlbumTheme {
         PhotoCard(
             modifier = Modifier,
-            photo = PhotoItem(
+            photo = PhotoUiModel(
                 albumId = 1,
                 id = 2,
                 title = "PhotoItem title.",
@@ -110,7 +110,7 @@ private fun PhotoCardPreview_LongTitle() {
     PhotoAlbumTheme {
         PhotoCard(
             modifier = Modifier,
-            photo = PhotoItem(
+            photo = PhotoUiModel(
                 albumId = 1,
                 id = 2,
                 title = "This is a very long long long long long long long long long long long long long long long long long long long long long long long long long long long PhotoItem title.",
@@ -128,7 +128,7 @@ private fun PhotoCardPreview_EmptyTitle() {
     PhotoAlbumTheme {
         PhotoCard(
             modifier = Modifier,
-            photo = PhotoItem(
+            photo = PhotoUiModel(
                 albumId = 1,
                 id = 2,
                 title = "PhotoItem title",

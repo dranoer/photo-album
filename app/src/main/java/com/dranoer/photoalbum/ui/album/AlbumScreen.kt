@@ -26,8 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dranoer.photoalbum.R
-import com.dranoer.photoalbum.domain.model.AlbumItem
 import com.dranoer.photoalbum.ui.component.AlbumCard
+import com.dranoer.photoalbum.ui.model.AlbumUiModel
+import com.dranoer.photoalbum.ui.model.AlbumUiState
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 import com.dranoer.photoalbum.util.getRandomColor
 import com.dranoer.rijksmuseum.ui.component.ErrorView
@@ -114,7 +115,7 @@ fun AlbumScreen(
 
 @Composable
 private fun AlbumList(
-    data: List<AlbumItem>,
+    data: List<AlbumUiModel>,
     navigateToPhoto: (String) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -158,17 +159,17 @@ private fun AlbumListPreview_Normal() {
     PhotoAlbumTheme {
         AlbumList(
             data = listOf(
-                AlbumItem(
+                AlbumUiModel(
                     userId = 1,
                     id = 2,
                     title = "AlbumItem title"
                 ),
-                AlbumItem(
+                AlbumUiModel(
                     userId = 1,
                     id = 2,
                     title = "AlbumItem title"
                 ),
-                AlbumItem(
+                AlbumUiModel(
                     userId = 1,
                     id = 2,
                     title = "AlbumItem title"

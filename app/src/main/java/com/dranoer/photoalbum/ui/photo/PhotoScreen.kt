@@ -31,8 +31,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dranoer.photoalbum.R
-import com.dranoer.photoalbum.domain.model.PhotoItem
 import com.dranoer.photoalbum.ui.component.PhotoCard
+import com.dranoer.photoalbum.ui.model.PhotoUiModel
+import com.dranoer.photoalbum.ui.model.PhotoUiState
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 import com.dranoer.rijksmuseum.ui.component.ErrorView
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -129,7 +130,7 @@ fun PhotoScreen(
 }
 
 @Composable
-private fun PhotoList(data: List<PhotoItem>, navigateToDetail: (String) -> Unit) {
+private fun PhotoList(data: List<PhotoUiModel>, navigateToDetail: (String) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.size_18),
@@ -169,14 +170,14 @@ private fun PhotoListPreview_Normal() {
     PhotoAlbumTheme {
         PhotoList(
             data = listOf(
-                PhotoItem(
+                PhotoUiModel(
                     albumId = 1,
                     id = 2,
                     title = "PhotoItem title.",
                     url = "url",
                     thumbnailUrl = "thumbnailUrl"
                 ),
-                PhotoItem(
+                PhotoUiModel(
                     albumId = 3,
                     id = 4,
                     title = "This is a very long long long long long long long long long long long long long long long PhotoItem title.",
