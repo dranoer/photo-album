@@ -22,9 +22,9 @@ fun ErrorView(
     refresh: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
     ) {
         Text(message)
         Spacer(Modifier.height(dimensionResource(id = R.dimen.size_16)))
@@ -33,7 +33,7 @@ fun ErrorView(
 }
 
 //region Preview
-@Preview("Normal Error view")
+@Preview
 @Composable
 private fun PreviewErrorView_Normal() {
     PhotoAlbumTheme() {

@@ -21,13 +21,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dranoer.photoalbum.R
-import com.dranoer.photoalbum.domain.model.PhotoItem
+import com.dranoer.photoalbum.ui.model.PhotoUiModel
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    photo: PhotoItem,
+    photo: PhotoUiModel,
     backPress: () -> Unit,
 ) {
     PhotoAlbumTheme {
@@ -75,7 +75,7 @@ private fun DetailScreenPreview_Normal() {
     PhotoAlbumTheme {
         DetailScreen(
             backPress = {},
-            photo = PhotoItem(
+            photo = PhotoUiModel(
                 albumId = 1,
                 id = 2,
                 title = "PhotoItem title.",

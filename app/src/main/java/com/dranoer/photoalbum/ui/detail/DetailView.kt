@@ -3,6 +3,7 @@ package com.dranoer.photoalbum.ui.detail
 import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -117,6 +118,46 @@ private fun DetailViewPreview_LongTitle() {
             url = "url",
             modifier = Modifier,
         )
+    }
+}
+
+@Preview
+@Composable
+private fun DetailViewPreview_DarkTheme() {
+    PhotoAlbumTheme(darkTheme = true) {
+        DetailView(
+            title = "DetailView title.",
+            url = "url",
+            modifier = Modifier,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DetailViewPreview_Portrait() {
+    PhotoAlbumTheme {
+        Box(modifier = Modifier.aspectRatio(0.6f)) {
+            DetailView(
+                title = "DetailView title.",
+                url = "url",
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun DetailViewPreview_Landscape() {
+    PhotoAlbumTheme {
+        Box(modifier = Modifier.aspectRatio(2f)) {
+            DetailView(
+                title = "DetailView title.",
+                url = "url",
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
     }
 }
 //endregion

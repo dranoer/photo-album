@@ -8,13 +8,13 @@ import javax.inject.Inject
 
 class PhotoRepository @Inject constructor(
     private val webService: WebService,
-    private val mapper: PhotoMapper,
+    private val domainMapper: DomainModelMapper,
 ) {
 
     suspend fun fetchAlbums(): List<AlbumItem> {
         try {
             val response = webService.fetchAlbums()
-            return mapper.mapAlbums(albumList = response)
+            return domainMapper.mapAlbums(albumList = response)
         } catch (e: Exception) {
             throw e.toAppException()
         }
@@ -23,7 +23,7 @@ class PhotoRepository @Inject constructor(
     suspend fun fetchPhotos(id: Int): List<PhotoItem> {
         try {
             val response = webService.fetchPhotos(id = id)
-            return mapper.mapPhotos(photoList = response)
+            return domainMapper.mapPhotos(photoList = response)
         } catch (e: Exception) {
             throw e.toAppException()
         }

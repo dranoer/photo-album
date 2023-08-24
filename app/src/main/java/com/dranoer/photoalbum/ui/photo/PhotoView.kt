@@ -20,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import com.dranoer.photoalbum.R
-import com.dranoer.photoalbum.domain.model.PhotoItem
+import com.dranoer.photoalbum.ui.model.PhotoUiModel
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 
 @Composable
-fun PhotoView(photo: PhotoItem, onPhotoClicked: (String) -> Unit, modifier: Modifier = Modifier) {
+fun PhotoView(photo: PhotoUiModel, onPhotoClicked: (String) -> Unit, modifier: Modifier) {
     Surface(
         color = when (isSystemInDarkTheme()) {
             true -> colorResource(id = R.color.gray_400)
@@ -33,7 +33,7 @@ fun PhotoView(photo: PhotoItem, onPhotoClicked: (String) -> Unit, modifier: Modi
         modifier = modifier.padding(dimensionResource(id = R.dimen.size_10)),
     ) {
         ConstraintLayout(
-            modifier = Modifier.clickable(onClick = { onPhotoClicked(photo.id.toString()) }),
+            modifier = Modifier.clickable(onClick = { onPhotoClicked(photo.id.toString()) })
         ) {
             val (image, name) = createRefs()
             //region Photo
@@ -78,7 +78,7 @@ fun PhotoView(photo: PhotoItem, onPhotoClicked: (String) -> Unit, modifier: Modi
                     .constrainAs(name) {
                         centerHorizontallyTo(parent)
                         top.linkTo(image.bottom)
-                    },
+                    }
             ) //endregion
         }
     }
@@ -87,10 +87,10 @@ fun PhotoView(photo: PhotoItem, onPhotoClicked: (String) -> Unit, modifier: Modi
 //region Preview
 @Preview
 @Composable
-private fun PhotoCardPreview_Normal() {
+private fun PhotoViewPreview_Normal() {
     PhotoAlbumTheme {
         PhotoView(
-            photo = PhotoItem(
+            photo = PhotoUiModel(
                 albumId = 1,
                 id = 2,
                 title = "PhotoItem title.",
@@ -105,10 +105,10 @@ private fun PhotoCardPreview_Normal() {
 
 @Preview
 @Composable
-private fun PhotoCardPreview_LongTitle() {
+private fun PhotoViewPreview_LongTitle() {
     PhotoAlbumTheme {
         PhotoView(
-            photo = PhotoItem(
+            photo = PhotoUiModel(
                 albumId = 1,
                 id = 2,
                 title = "This is a very long long long long long long long long long long long long long long long long long long long long long long long long long long long PhotoItem title.",
@@ -123,10 +123,10 @@ private fun PhotoCardPreview_LongTitle() {
 
 @Preview
 @Composable
-private fun PhotoCardPreview_EmptyTitle() {
+private fun PhotoViewPreview_EmptyTitle() {
     PhotoAlbumTheme {
         PhotoView(
-            photo = PhotoItem(
+            photo = PhotoUiModel(
                 albumId = 1,
                 id = 2,
                 title = "PhotoItem title",

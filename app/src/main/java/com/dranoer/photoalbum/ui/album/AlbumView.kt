@@ -17,7 +17,7 @@ import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 import com.dranoer.photoalbum.util.getRandomColor
 
 @Composable
-fun AlbumCard(
+fun AlbumView(
     modifier: Modifier,
     id: String,
     title: String,
@@ -44,9 +44,9 @@ fun AlbumCard(
 //region Preview
 @Preview
 @Composable
-private fun AlbumCardPreview_Normal() {
+private fun AlbumViewPreview_Normal() {
     PhotoAlbumTheme {
-        AlbumCard(
+        AlbumView(
             id = "2",
             title = "AlbumItem title",
             color = getRandomColor(),
@@ -58,13 +58,60 @@ private fun AlbumCardPreview_Normal() {
 
 @Preview
 @Composable
-private fun AlbumCardPreview_LongTitle() {
+private fun AlbumViewPreview_LongTitle() {
     PhotoAlbumTheme {
-        AlbumCard(
+        AlbumView(
             id = "2",
             title = "This is a very long long long long long long long long long long long long long long long AlbumItem title.",
             color = getRandomColor(),
             onAlbumClicked = {},
+            modifier = Modifier,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AlbumViewPreview_NoTitle() {
+    PhotoAlbumTheme {
+        AlbumView(
+            id = "2",
+            title = "",
+            color = getRandomColor(),
+            onAlbumClicked = {},
+            modifier = Modifier,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AlbumViewPreview_DarkTheme() {
+    PhotoAlbumTheme(darkTheme = true) {
+        AlbumView(
+            id = "2",
+            title = "AlbumItem title.",
+            color = getRandomColor(),
+            onAlbumClicked = {},
+            modifier = Modifier,
+        )
+    }
+}
+
+/**
+ * This function depicts the `AlbumCard` composable in a state where it's clickable.
+ * This is to visualize the UI state in the Compose Preview,
+ * although actual click events are not interactive within the Preview.
+ */
+@Preview
+@Composable
+private fun AlbumViewPreview_Clickable() {
+    PhotoAlbumTheme {
+        AlbumView(
+            id = "2",
+            title = "AlbumItem title.",
+            color = getRandomColor(),
+            onAlbumClicked = { clickedId -> println("Clicked on album with id: $clickedId") },
             modifier = Modifier,
         )
     }
