@@ -1,4 +1,4 @@
-package com.dranoer.photoalbum.ui.photo
+package com.dranoer.photoalbum.ui.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,12 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.domain.model.PhotoItem
-import com.dranoer.photoalbum.ui.component.DetailView
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhotoDetailScreen(
+fun DetailScreen(
     photo: PhotoItem,
     backPress: () -> Unit,
 ) {
@@ -59,9 +58,9 @@ fun PhotoDetailScreen(
                         .padding(paddingValues = PaddingValues(dimensionResource(id = R.dimen.size_0))),
                 ) {
                     DetailView(
-                        modifier = Modifier.wrapContentWidth(),
                         title = photo.title,
-                        url = photo.url
+                        url = photo.url,
+                        modifier = Modifier.wrapContentWidth()
                     )
                 }
             } //endregion
@@ -74,7 +73,7 @@ fun PhotoDetailScreen(
 @Composable
 private fun DetailScreenPreview_Normal() {
     PhotoAlbumTheme {
-        PhotoDetailScreen(
+        DetailScreen(
             backPress = {},
             photo = PhotoItem(
                 albumId = 1,

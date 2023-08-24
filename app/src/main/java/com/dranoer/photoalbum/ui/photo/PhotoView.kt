@@ -1,4 +1,4 @@
-package com.dranoer.photoalbum.ui.component
+package com.dranoer.photoalbum.ui.photo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,21 +24,24 @@ import com.dranoer.photoalbum.domain.model.PhotoItem
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 
 @Composable
-fun PhotoCard(modifier: Modifier, photo: PhotoItem, onPhotoClicked: (String) -> Unit) {
+fun PhotoView(photo: PhotoItem, onPhotoClicked: (String) -> Unit, modifier: Modifier = Modifier) {
     Surface(
-        modifier = modifier.padding(dimensionResource(id = R.dimen.size_10)),
         color = when (isSystemInDarkTheme()) {
             true -> colorResource(id = R.color.gray_400)
             false -> colorResource(id = R.color.white)
-        }
+        },
+        modifier = modifier.padding(dimensionResource(id = R.dimen.size_10)),
     ) {
         ConstraintLayout(
-            modifier = Modifier
-                .clickable(onClick = { onPhotoClicked(photo.id.toString()) })
+            modifier = Modifier.clickable(onClick = { onPhotoClicked(photo.id.toString()) }),
         ) {
             val (image, name) = createRefs()
             //region Photo
             AsyncImage(
+                model = photo.url,
+                contentDescription = photo.title,
+                placeholder = painterResource(R.drawable.placeholder),
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.size_10))
                     .aspectRatio(6f / 3f)
@@ -47,10 +50,6 @@ fun PhotoCard(modifier: Modifier, photo: PhotoItem, onPhotoClicked: (String) -> 
                         centerHorizontallyTo(parent)
                         top.linkTo(parent.top)
                     },
-                model = photo.url,
-                contentDescription = photo.title,
-                placeholder = painterResource(R.drawable.placeholder),
-                contentScale = ContentScale.Crop
             ) //endregion
             //region Title
             Text(
@@ -79,7 +78,7 @@ fun PhotoCard(modifier: Modifier, photo: PhotoItem, onPhotoClicked: (String) -> 
                     .constrainAs(name) {
                         centerHorizontallyTo(parent)
                         top.linkTo(image.bottom)
-                    }
+                    },
             ) //endregion
         }
     }
@@ -90,8 +89,7 @@ fun PhotoCard(modifier: Modifier, photo: PhotoItem, onPhotoClicked: (String) -> 
 @Composable
 private fun PhotoCardPreview_Normal() {
     PhotoAlbumTheme {
-        PhotoCard(
-            modifier = Modifier,
+        PhotoView(
             photo = PhotoItem(
                 albumId = 1,
                 id = 2,
@@ -99,7 +97,8 @@ private fun PhotoCardPreview_Normal() {
                 url = "url",
                 thumbnailUrl = "thumbnailUrl"
             ),
-            onPhotoClicked = {}
+            onPhotoClicked = {},
+            modifier = Modifier
         )
     }
 }
@@ -108,8 +107,7 @@ private fun PhotoCardPreview_Normal() {
 @Composable
 private fun PhotoCardPreview_LongTitle() {
     PhotoAlbumTheme {
-        PhotoCard(
-            modifier = Modifier,
+        PhotoView(
             photo = PhotoItem(
                 albumId = 1,
                 id = 2,
@@ -117,7 +115,8 @@ private fun PhotoCardPreview_LongTitle() {
                 url = "url",
                 thumbnailUrl = "thumbnailUrl"
             ),
-            onPhotoClicked = {}
+            onPhotoClicked = {},
+            modifier = Modifier
         )
     }
 }
@@ -126,8 +125,7 @@ private fun PhotoCardPreview_LongTitle() {
 @Composable
 private fun PhotoCardPreview_EmptyTitle() {
     PhotoAlbumTheme {
-        PhotoCard(
-            modifier = Modifier,
+        PhotoView(
             photo = PhotoItem(
                 albumId = 1,
                 id = 2,
@@ -135,7 +133,8 @@ private fun PhotoCardPreview_EmptyTitle() {
                 url = "url",
                 thumbnailUrl = "thumbnailUrl"
             ),
-            onPhotoClicked = {}
+            onPhotoClicked = {},
+            modifier = Modifier
         )
     }
 }

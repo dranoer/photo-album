@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.ui.album.AlbumScreen
-import com.dranoer.photoalbum.ui.photo.PhotoDetailScreen
+import com.dranoer.photoalbum.ui.detail.DetailScreen
 import com.dranoer.photoalbum.ui.photo.PhotoScreen
 import com.dranoer.photoalbum.ui.photo.PhotoViewModel
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
@@ -88,7 +88,7 @@ private fun AppScreen(
             val photoId = backStackEntry.arguments?.getString(Constant.PHOTO_ID)
             val selectedPhoto = photoViewModel.getPhotoDetail(photoId = photoId?.toInt() ?: 0)
             selectedPhoto?.let {
-                PhotoDetailScreen(
+                DetailScreen(
                     photo = it,
                     backPress = { navController.navigateUp() },
                 )

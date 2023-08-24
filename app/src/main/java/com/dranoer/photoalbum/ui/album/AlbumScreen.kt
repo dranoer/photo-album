@@ -1,10 +1,9 @@
 package com.dranoer.photoalbum.ui.album
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.domain.model.AlbumItem
-import com.dranoer.photoalbum.ui.component.AlbumCard
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 import com.dranoer.photoalbum.util.getRandomColor
 import com.dranoer.rijksmuseum.ui.component.ErrorView
@@ -80,10 +78,10 @@ fun AlbumScreen(
                     onRefresh = { viewModel.fetchAlbums() }
                 ) {
                     Box(
+                        contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(paddingValues = padding),
-                        contentAlignment = Alignment.Center,
                     ) {
                         when (state) {
                             is AlbumUiState.Empty -> {
@@ -119,6 +117,7 @@ private fun AlbumList(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.album_card_space)),
             modifier = Modifier.padding(
                 start = dimensionResource(id = R.dimen.size_26),
                 top = dimensionResource(id = R.dimen.size_8),
@@ -126,18 +125,13 @@ private fun AlbumList(
             ),
         ) {
             items(data) { album ->
-                //region Card
                 AlbumCard(
-                    modifier = Modifier.wrapContentWidth(),
                     title = album.title,
                     id = album.id.toString(),
                     color = getRandomColor(),
-                    onAlbumClicked = { navigateToPhoto(album.id.toString()) }
-                ) //endregion
-                //region Vertical Space
-                Spacer(
-                    modifier = Modifier.height(dimensionResource(id = R.dimen.size_12)),
-                ) //endregion
+                    onAlbumClicked = { navigateToPhoto(album.id.toString()) },
+                    modifier = Modifier.wrapContentWidth()
+                )
             }
         }
     }

@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dranoer.photoalbum.R
 import com.dranoer.photoalbum.domain.model.PhotoItem
-import com.dranoer.photoalbum.ui.component.PhotoCard
 import com.dranoer.photoalbum.ui.theme.PhotoAlbumTheme
 import com.dranoer.rijksmuseum.ui.component.ErrorView
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -97,10 +96,8 @@ fun PhotoScreen(
                     onRefresh = { viewModel.fetchPhotos(albumId = albumId.toInt()) }
                 ) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding),
                         contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize().padding(padding),
                     ) {
                         when (val state = viewModel.photoState.collectAsState().value) {
                             is PhotoUiState.Empty -> {
@@ -131,24 +128,22 @@ fun PhotoScreen(
 @Composable
 private fun PhotoList(data: List<PhotoItem>, navigateToDetail: (String) -> Unit) {
     LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.SpaceAround,
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.size_18),
             top = dimensionResource(id = R.dimen.size_2),
             end = dimensionResource(id = R.dimen.size_18),
             bottom = dimensionResource(id = R.dimen.size_18)
         ),
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalArrangement = Arrangement.SpaceAround,
     ) {
         items(data) { photo ->
             //region Card
-            PhotoCard(
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .wrapContentHeight(),
+            PhotoView(
                 photo = photo,
-                onPhotoClicked = { navigateToDetail(photo.id.toString()) }
+                onPhotoClicked = { navigateToDetail(photo.id.toString()) },
+                modifier = Modifier.wrapContentWidth().wrapContentHeight(),
             ) //endregion
         }
     }

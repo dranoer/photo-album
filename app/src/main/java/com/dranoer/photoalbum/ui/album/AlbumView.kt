@@ -1,12 +1,10 @@
-package com.dranoer.photoalbum.ui.component
+package com.dranoer.photoalbum.ui.album
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,21 +24,19 @@ fun AlbumCard(
     color: Color,
     onAlbumClicked: (String) -> Unit,
 ) {
-    Card(
+    Surface(
+        shape = MaterialTheme.shapes.extraSmall,
+        color = color,
         modifier = modifier
             .fillMaxWidth()
             .clickable { onAlbumClicked(id) },
-        shape = RoundedCornerShape(10),
-        colors = CardDefaults.cardColors(
-            containerColor = color,
-        ),
     ) {
         Text(
-            modifier = modifier.padding(dimensionResource(id = R.dimen.size_14)),
             text = title,
             maxLines = 1,
             style = MaterialTheme.typography.bodyMedium,
             color = colorResource(id = R.color.black),
+            modifier = modifier.padding(dimensionResource(id = R.dimen.size_14)),
         )
     }
 }
@@ -51,11 +47,11 @@ fun AlbumCard(
 private fun AlbumCardPreview_Normal() {
     PhotoAlbumTheme {
         AlbumCard(
-            modifier = Modifier,
             id = "2",
             title = "AlbumItem title",
             color = getRandomColor(),
             onAlbumClicked = {},
+            modifier = Modifier,
         )
     }
 }
@@ -65,11 +61,11 @@ private fun AlbumCardPreview_Normal() {
 private fun AlbumCardPreview_LongTitle() {
     PhotoAlbumTheme {
         AlbumCard(
-            modifier = Modifier,
             id = "2",
             title = "This is a very long long long long long long long long long long long long long long long AlbumItem title.",
             color = getRandomColor(),
             onAlbumClicked = {},
+            modifier = Modifier,
         )
     }
 }
