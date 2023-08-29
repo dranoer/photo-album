@@ -1,5 +1,6 @@
 package com.dranoer.photoalbum.ui.album
 
+import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -139,17 +140,19 @@ private fun AlbumList(
 }
 
 //region Preview
-@Preview
+@Preview(name = "LightTheme", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "DarkTheme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun AlbumPreview_Normal() {
+private fun AlbumPreview() {
     PhotoAlbumTheme {
         AlbumScreen(navigateToPhoto = {})
     }
 }
 
-@Preview
+@Preview(name = "LightTheme", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "DarkTheme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun AlbumListPreview_Normal() {
+private fun AlbumListPreview() {
     PhotoAlbumTheme {
         AlbumList(
             data = listOf(
