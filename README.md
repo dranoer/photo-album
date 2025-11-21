@@ -1,67 +1,62 @@
-# PhotoAlbum App
-This application leverages the [JSONPlaceholder API](https://jsonplaceholder.typicode.com) to exhibit album lists and the associated photo details.
+# 📱 KMP Aticle App
+<br>
+
+## Architecture and Key Decisions
+The project uses a clean, two-module KMP architecture:
+- :app Module: This is the core of the application, containing all primary features and logic. It follows MVVM architecture written with Kotlin and Jetpack libraries. It uses Hilt for dependency injection and handles platform-specific tasks like background workers.
+- :shared Module: A Kotlin Multiplatform module whose single responsibility is providing cache.
+```
+└── article
+    ├── app
+    │   ├── data
+    │   │   ├── mapper
+    │   │   ├── model
+    │   │   ├── remote
+    │   │   │   ├── ApiService.kt
+    │   │   │   └── MockInterceptor.kt // Provides fake API data
+    │   │   ├── repository
+    │   │   └── worker // Background data prefetch
+    │   ├── di
+    │   │   └── AppModule.kt
+    │   ├── domain
+    │   │   ├── model
+    │   │   └── repository
+    │   ├── ui
+    │   │   ├── mapper
+    │   │   ├── model
+    │   │   ├── theme
+    │   │   ├── view
+    │   │   │    ├── article // Composables for the article list screen
+    │   │   │    ├── component // Reusable UI components
+    │   │   │    └── detail // Composables for the article detail screen
+    │   │   └── viewmodel
+    │   └── util
+    │   ├── ArticleApp.kt
+    │   └── MainActivity.kt 
+    │
+    └── shared
+        ├── cache
+        └── Platform.kt
+
+
+```
 <br><br>
 
-## Application Structure 📚
-This project primarily adopts the Model-View-ViewModel (MVVM) pattern and certain principles of clean architecture, emphasizing the separation of concerns and encapsulation. Despite not strictly adhering to every facet of clean architecture, such as the absence of **Use Cases** and exact division of modules like **Domain** and **Data**, the application is designed with a focus on maintainability and scalability.
-
-```
-└── photo-album
-    ├── data  // Handles API response models and network requests
-    │   └── remote
-    │       └── model (AlbumModel.kt, PhotoModel)
-    │       └── WebService
-    ├── di  // Contains all dependencies, provided in AppModule
-    │   └── AppModule
-    ├── domain  // Hosts business logic components (repositories, mappers)
-    │   ├── model (AlbumItem, PhotoItem)
-    │   ├── PhotoMapper
-    │   └── PhotoRepository
-    ├── ui  // Houses UI-related classes (components, screens)
-    │   ├── album (AlbumScreen, AlbumUiState, AlbumViewModel)
-    │   ├── component (AlbumCard, DetailView, ErrorView, PhotoCard)
-    │   ├── photo (PhotoDetailScreen, PhotoScreen, PhotoUiState, PhotoViewModel)
-    │   ├── theme // Contains classes related to the application's UI.
-    │   └── MainActivity
-    ├── util  // Includes utility and exception handling classes
-    │   ├── exception (AppException, ExceptionExtension)
-    │   ├── Constant
-    │   ├── Route
-    │   └── UiUtil
-    └── PhotoAlbumApp
-```
-<br>
-
-## Features 🚀
-- Displays all available albums.
-- Shows photos within each album.
-- Provides a detailed view for each photo.
-- Asynchronous data loading.
-- Utilizes popular libraries for network requests and dependency injection.
-<br>
+## Network vs. Backend Errors 
+Error handling is managed in the :app module using a custom Result sealed class. When an operation fails, it returns a Result.Error that contains a specific ErrorType.
+<br><br>
 
 
-## Tech Stack 💻
-The following libraries and tools were utilized in the project:
-
-- **Kotlin** as the main language.
-- **Jetpack Compose** for building the UI.
-- **AndroidX Paging Library** for handling pagination in the application.
-- **Navigation-Compose** for handling in-app navigation.
-- **Coil** for image loading.
-- **Kotlin Coroutines & Flow** for handling asynchronous tasks.
-- **Hilt** for dependency injection.
-- **Retrofit** for making network requests.
-- **OkHttp3** for implementing interceptor, logging and networking.
-- **GSON Converter** for parsing JSON.
-- **JUnit, MockK and Kotlinx Coroutines Test** for Testing.
-<br>
+## Auto-Refresh and Background Prefetch
+The app uses WorkManager to schedule a daily background job.
+<br><br>
 
 
-## Future Improvements 🛠
-While the project is functional and robust, there are areas that could see improvements in the future:
+## Staleness Rule and KMP Cache
+The :shared module provides a simple in-memory cache with a 1-minute. If data is older than one minute, it's considered stale, triggering a network fetch. Otherwise, the valid cache entry is served instantly.
+<br><br>
 
-- **Paging**: Since the JSONPlaceholder API does not support pagination, the app currently does not feature pagination capabilities. If the API were to support it in the future, pagination would be an ideal addition.
-- **Expanded Test Coverage**: More comprehensive unit and UI tests to ensure the app's stability.
-- **User Experience**: Refine the UI and UX design of the app for a more engaging user experience.
+
+## Project Status
+All core features were completed: the KMP module, network and caching layers, Compose UI for list/detail views, filter functionality, error handling, and background prefetching. Optional features like UI animations, persistent database caching, and more test coverage were skipped to prioritize core functionality.
 <br><br>
